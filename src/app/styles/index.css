@@ -1,0 +1,99 @@
+@import './fonts.css';
+@import './animations.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Reference Palette - Light Mode */
+    --background: 42 37% 93.5%;        /* #F5F1E8 cream background */
+    --foreground: 0 0% 6.7%;           /* #111111 primary text */
+    --card: 41 34% 89.2%;              /* #EDE7DA surface cards */
+    --card-foreground: 0 0% 6.7%;      /* #111111 */
+    --popover: 41 34% 89.2%;           /* #EDE7DA */
+    --popover-foreground: 0 0% 6.7%;   /* #111111 */
+    --primary: 0 0% 6.7%;              /* #111111 solid black primary button/text */
+    --primary-foreground: 42 37% 93.5%;/* #F5F1E8 cream text on black */
+    --secondary: 41 28% 85%;           /* slightly deeper surface */
+    --secondary-foreground: 0 0% 6.7%; /* #111111 */
+    --muted: 41 20% 86%;               /* muted surface */
+    --muted-foreground: 0 0% 35.3%;    /* #5A5A5A muted text */
+    --accent: 58 23% 29.4%;            /* #5C5B3A olive accent */
+    --accent-foreground: 42 37% 93.5%; /* #F5F1E8 */
+    --destructive: 0 65% 42%;
+    --destructive-foreground: 42 37% 93.5%;
+    --border: 41 23% 80.8%;            /* #D9D2C3 borders */
+    --input: 41 23% 80.8%;             /* #D9D2C3 input borders */
+    --ring: 0 0% 6.7%;                 /* #111111 */
+    --radius: 0.75rem;
+
+    /* Theme tokens */
+    --color-cream: #F5F1E8;
+    --color-surface: #EDE7DA;
+    --color-dark: #111111;
+    --color-muted: #5A5A5A;
+    --color-border: #D9D2C3;
+    --color-olive: #5C5B3A;
+
+    /* Hero overlay variable (50-60% opacity black gradient for WCAG contrast) */
+    --hero-overlay: linear-gradient(to right, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.58) 55%, rgba(0, 0, 0, 0.45) 100%);
+  }
+
+  .dark {
+    /* Reference Palette - Dark Mode */
+    --background: 0 0% 5.5%;           /* #0E0E0E dark background */
+    --foreground: 42 37% 93.5%;        /* #F5F1E8 cream text */
+    --card: 0 0% 10.2%;                /* #1A1A1A surface */
+    --card-foreground: 42 37% 93.5%;   /* #F5F1E8 */
+    --popover: 0 0% 10.2%;             /* #1A1A1A */
+    --popover-foreground: 42 37% 93.5%;/* #F5F1E8 */
+    --primary: 42 37% 93.5%;           /* #F5F1E8 cream button in dark mode */
+    --primary-foreground: 0 0% 6.7%;   /* #111111 black text on cream button */
+    --secondary: 0 0% 14%;             /* secondary surface */
+    --secondary-foreground: 42 37% 93.5%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 60%;      /* muted text in dark mode */
+    --accent: 58 23% 35%;              /* #5C5B3A olive accent */
+    --accent-foreground: 42 37% 93.5%;
+    --destructive: 0 62% 38%;
+    --destructive-foreground: 42 37% 93.5%;
+    --border: 0 0% 16.5%;              /* #2A2A2A dark borders */
+    --input: 0 0% 16.5%;               /* #2A2A2A */
+    --ring: 42 37% 93.5%;              /* #F5F1E8 */
+
+    /* Theme tokens */
+    --color-cream: #F5F1E8;
+    --color-surface: #1A1A1A;
+    --color-dark: #0E0E0E;
+    --color-muted: #8E8E8E;
+    --color-border: #2A2A2A;
+    --color-olive: #5C5B3A;
+
+    /* Hero overlay in dark mode (slightly deeper dark gradient) */
+    --hero-overlay: linear-gradient(to right, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.68) 55%, rgba(0, 0, 0, 0.55) 100%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground min-h-screen transition-colors duration-200;
+  }
+  h1, h2, h3, .font-serif, .font-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+/* Hide number input spinners globally */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}

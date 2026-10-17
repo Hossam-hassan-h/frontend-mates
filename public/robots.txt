@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /auth/
+Disallow: /checkout
+Disallow: /wishlist
+Disallow: /profile
+Disallow: /dashboard
+Disallow: /manager

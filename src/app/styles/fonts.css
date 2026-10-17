@@ -1,0 +1,8 @@
+/* Clean Serif for Headings and Clean Sans-Serif for Body and Buttons */
+body, button, input, select, textarea {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif, .font-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+}
