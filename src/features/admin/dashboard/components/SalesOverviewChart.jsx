@@ -13,7 +13,7 @@ export function SalesOverviewChart({ data = [] }) {
   return (
     <Card className="min-w-0 xl:col-span-2">
       <CardHeader className="p-4 sm:p-6">
-        <CardTitle className="text-sm font-extrabold sm:text-base">نظرة عامة على المبيعات والطلبات</CardTitle>
+        <CardTitle className="text-sm font-extrabold sm:text-base">Sales & Orders Overview</CardTitle>
       </CardHeader>
       <CardContent className="px-2 pb-4 sm:px-6 sm:pb-6">
         <div className="h-[240px] min-w-0 w-full dir-ltr sm:h-[300px]">
@@ -40,7 +40,7 @@ export function SalesOverviewChart({ data = [] }) {
               <Area
                 type="monotone"
                 dataKey="sales"
-                name="المبيعات (EGP)"
+                name="Sales (EGP)"
                 stroke="#10b981"
                 strokeWidth={3}
                 fillOpacity={1}

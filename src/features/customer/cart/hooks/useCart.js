@@ -61,10 +61,10 @@ export function useAddToCart() {
     },
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['cart'] });
-      toast.success(`تمت إضافة ${variables.quantity} إلى سلة التسوق`);
+      toast.success(`Added ${variables.quantity} item(s) to bag`);
     },
     onError: (err) => {
-      toast.error(err.response?.data?.message || 'فشل إضافة المنتج للسلة');
+      toast.error(err.response?.data?.message || 'Failed to add item to bag');
     },
   });
 }

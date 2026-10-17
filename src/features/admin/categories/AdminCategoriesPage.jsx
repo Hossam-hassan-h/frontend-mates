@@ -57,10 +57,10 @@ export function AdminCategoriesPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
       setIsModalOpen(false);
-      toast.success("تمت إضافة التصنيف بنجاح");
+      toast.success("Category added successfully");
     },
     onError: (error) => {
-      toast.error(error.response?.data?.message || "فشل إنشاء التصنيف");
+      toast.error(error.response?.data?.message || "Failed to create category");
     },
   });
 
@@ -77,10 +77,10 @@ export function AdminCategoriesPage() {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
       setEditingCategory(null);
       setIsModalOpen(false);
-      toast.success("تم تحديث التصنيف بنجاح");
+      toast.success("Category updated successfully");
     },
     onError: (error) => {
-      toast.error(error.response?.data?.message || "فشل تحديث التصنيف");
+      toast.error(error.response?.data?.message || "Failed to update category");
     },
   });
 
@@ -89,10 +89,10 @@ export function AdminCategoriesPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
       setCategoryToDelete(null);
-      toast.success("تم حذف التصنيف بنجاح");
+      toast.success("Category deleted successfully");
     },
     onError: (error) => {
-      toast.error(error.response?.data?.message || "فشل حذف التصنيف");
+      toast.error(error.response?.data?.message || "Failed to delete category");
     },
   });
 
@@ -116,11 +116,11 @@ export function AdminCategoriesPage() {
   const isSaving = createCategoryMutation.isPending || updateCategoryMutation.isPending;
 
   return (
-    <div className="w-full min-w-0 max-w-full space-y-4 font-['Cairo']" dir="rtl">
+    <div className="w-full min-w-0 max-w-full space-y-4 font-sans" dir="ltr">
       <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative min-w-0 w-full max-w-md flex-1">
           <label htmlFor="category-search" className="sr-only">
-            بحث في التصنيفات
+            Search categories
           </label>
           <Search
             aria-hidden="true"
@@ -134,8 +134,8 @@ export function AdminCategoriesPage() {
               setSearchQuery(event.target.value);
               setCurrentPage(1);
             }}
-            placeholder="بحث في التصنيفات..."
-            className="h-[42px] w-full rounded-full border border-[#E2E6DC] bg-white py-2 pl-4 pr-10 text-sm text-[#1A1F16] placeholder:text-[#6B7464]/60 focus:border-[#1D6B36] focus:outline-none focus:ring-2 focus:ring-[#1D6B36]/30"
+            placeholder="Search categories..."
+            className="h-[42px] w-full rounded-full border border-input bg-card py-2 pl-4 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
           />
         </div>
 
@@ -149,28 +149,28 @@ export function AdminCategoriesPage() {
           className="h-[40px] w-full gap-1.5 rounded-full bg-[#1D6B36] px-4 text-xs font-bold text-white hover:bg-[#175A2D] sm:w-auto"
         >
           <Plus aria-hidden="true" className="h-4 w-4" />
-          إضافة تصنيف
+          Add Category
         </Button>
       </div>
 
       {isError ? (
         <ErrorState
-          title="تعذر تحميل التصنيفات"
-          message="حدث خطأ أثناء جلب التصنيفات من قاعدة البيانات."
+          title="Failed to load categories"
+          message="An error occurred while fetching categories from the database."
           onRetry={refetch}
         />
       ) : (
-        <Card className="w-full max-w-full overflow-hidden rounded-2xl border-[#E2E6DC] bg-white shadow-sm">
+        <Card className="w-full max-w-full overflow-hidden rounded-2xl border-border/80 bg-card shadow-sm">
           <div className="w-full max-w-full overflow-x-auto overscroll-x-contain">
-            <table className="w-full min-w-[620px] table-auto text-sm text-[#1A1F16]" dir="rtl">
-              <thead className="border-b border-[#E2E6DC] bg-white">
+            <table className="w-full min-w-[620px] table-auto text-sm text-foreground" dir="ltr">
+              <thead className="border-b border-border/60 bg-secondary/40">
                 <tr className="h-12">
-                  <th className="px-5 py-3 text-right font-bold text-[#6B7464]">التصنيف</th>
-                  <th className="px-5 py-3 text-right font-bold text-[#6B7464]">تاريخ الإضافة</th>
-                  <th className="px-5 py-3 text-left font-bold text-[#6B7464]">إجراءات</th>
+                  <th className="px-5 py-3 text-start font-bold text-muted-foreground">Category</th>
+                  <th className="px-5 py-3 text-start font-bold text-muted-foreground">Date Added</th>
+                  <th className="px-5 py-3 text-end font-bold text-muted-foreground">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E2E6DC]/60">
+              <tbody className="divide-y divide-border/60">
                 {isLoading ? (
                   [...Array(5)].map((_, index) => (
                     <tr key={index} className="h-[64px]">
@@ -183,10 +183,10 @@ export function AdminCategoriesPage() {
                   paginatedCategories.map((category) => (
                     <tr
                       key={category._id}
-                      className="h-[64px] transition-colors hover:bg-[#F9FAF7]"
+                      className="h-[64px] transition-colors hover:bg-secondary/40"
                     >
                       <td className="px-5 py-3.5">
-                        <div className="flex items-center gap-3 font-bold text-[#1A1F16]">
+                        <div className="flex items-center gap-3 font-bold text-foreground">
                           {category.image ? (
                             <img
                               src={category.image}
@@ -194,14 +194,14 @@ export function AdminCategoriesPage() {
                               className="h-10 w-10 rounded-xl object-cover"
                             />
                           ) : (
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E2E6DC] text-[#6B7464]">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
                               <Package className="h-5 w-5" aria-hidden="true" />
                             </div>
                           )}
                           <span>{getText(category.name)}</span>
                         </div>
                       </td>
-                      <td className="px-5 py-3.5 text-xs font-medium text-[#6B7464]">
+                      <td className="px-5 py-3.5 text-xs font-medium text-muted-foreground">
                         {category.createdAt
                           ? new Date(category.createdAt).toLocaleDateString("ar-EG")
                           : "—"}
@@ -210,7 +210,7 @@ export function AdminCategoriesPage() {
                         <div className="flex items-center justify-end gap-1.5 text-[#6B7464]">
                           <button
                             type="button"
-                            aria-label={`تعديل تصنيف ${getText(category.name)}`}
+                            aria-label={`Edit category ${getText(category.name)}`}
                             onClick={() => {
                               setEditingCategory(category);
                               setIsModalOpen(true);
@@ -221,7 +221,7 @@ export function AdminCategoriesPage() {
                           </button>
                           <button
                             type="button"
-                            aria-label={`حذف تصنيف ${getText(category.name)}`}
+                            aria-label={`Delete category ${getText(category.name)}`}
                             onClick={() => setCategoryToDelete(category)}
                             className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-red-50 hover:text-red-600"
                           >
@@ -237,13 +237,13 @@ export function AdminCategoriesPage() {
                       <EmptyState
                         title={
                           categories.length === 0
-                            ? "لا توجد تصنيفات حالياً"
-                            : "لا توجد نتائج مطابقة"
+                            ? "No categories found"
+                            : "No matching results"
                         }
                         description={
                           categories.length === 0
-                            ? "أضف أول تصنيف ليظهر في المتجر."
-                            : "جرّب تغيير عبارة البحث."
+                            ? "Add your first category to display in the store."
+                            : "Try changing your search keywords."
                         }
                       />
                     </td>
@@ -258,7 +258,7 @@ export function AdminCategoriesPage() {
             totalItems={filteredCategories.length}
             pageSize={CATEGORIES_PER_PAGE}
             onPageChange={setCurrentPage}
-            itemLabel="تصنيف"
+            itemLabel="category"
           />
         </Card>
       )}
@@ -278,10 +278,10 @@ export function AdminCategoriesPage() {
       <ConfirmDialog
         isOpen={Boolean(categoryToDelete)}
         variant="danger"
-        title="تأكيد حذف التصنيف"
-        description={`سيتم حذف تصنيف «${getText(categoryToDelete?.name)}» نهائياً من قاعدة البيانات. لا يمكن التراجع عن هذا الإجراء.`}
-        confirmText="حذف نهائياً"
-        cancelText="إلغاء"
+        title="Confirm Category Deletion"
+        description={`Category "${getText(categoryToDelete?.name)}" will be permanently deleted from the database. This action cannot be undone.`}
+        confirmText="Delete Permanently"
+        cancelText="Cancel"
         isLoading={deleteCategoryMutation.isPending}
         onConfirm={() => deleteCategoryMutation.mutate(categoryToDelete._id)}
         onCancel={() => {

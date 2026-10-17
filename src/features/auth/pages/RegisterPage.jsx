@@ -35,51 +35,51 @@ export function RegisterPage() {
   return (
     <div className="space-y-6">
       <div className="space-y-1 text-center">
-        <h2 className="text-xl font-bold tracking-tight text-foreground">إنشاء حساب جديد</h2>
-        <p className="text-xs text-muted-foreground">انضم إلى متجر قاسم واستمتع بتجربة تسوق مميزة</p>
+        <h2 className="text-xl font-bold tracking-tight text-foreground">Create New Account</h2>
+        <p className="text-xs text-muted-foreground">Join Mates Store and enjoy a distinctive shopping experience</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <Label htmlFor="name">الاسم الكامل</Label>
-          <Input id="name" placeholder="محمد أحمد" {...register('name')} />
+          <Label htmlFor="name">Full Name</Label>
+          <Input id="name" placeholder="John Doe" {...register('name')} />
           <FieldError error={errors.name} />
         </div>
 
         <div>
-          <Label htmlFor="email">البريد الإلكتروني</Label>
+          <Label htmlFor="email">Email Address</Label>
           <Input id="email" type="email" placeholder="name@example.com" {...register('email')} />
           <FieldError error={errors.email} />
         </div>
 
         <div>
-          <Label htmlFor="password">كلمة المرور</Label>
+          <Label htmlFor="password">Password</Label>
           <Input id="password" type="password" placeholder="••••••••" {...register('password')} />
           <FieldError error={errors.password} />
         </div>
 
         <div>
-          <Label htmlFor="passwordConfirm">تأكيد كلمة المرور</Label>
+          <Label htmlFor="passwordConfirm">Confirm Password</Label>
           <Input id="passwordConfirm" type="password" placeholder="••••••••" {...register('passwordConfirm')} />
           <FieldError error={errors.passwordConfirm} />
         </div>
 
         <Button type="submit" className="w-full" disabled={isRegistering}>
           {isRegistering ? (
-            'جاري إنشاء الحساب...'
+            'Creating account...'
           ) : (
             <span className="flex items-center gap-2">
               <UserPlus className="w-4 h-4" />
-              إنشاء حساب
+              Create Account
             </span>
           )}
         </Button>
       </form>
 
       <div className="text-center text-xs text-muted-foreground pt-2 border-t border-border/50">
-        لديك حساب بالفعل؟{' '}
+        Already have an account?{' '}
         <Link to={ROUTE_PATHS.AUTH.LOGIN} className="text-primary font-bold hover:underline">
-          تسجيل الدخول
+          Log In
         </Link>
       </div>
     </div>

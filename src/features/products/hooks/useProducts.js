@@ -66,13 +66,13 @@ export function useCreateReview() {
   return useMutation({
     mutationFn: productsApi.createProductReview,
     onSuccess: (data, variables) => {
-      toast.success('تمت إضافة تقييمك بنجاح');
+      toast.success('Your review was added successfully');
       queryClient.invalidateQueries({ queryKey: ['productReviews', variables.productId] });
       queryClient.invalidateQueries({ queryKey: ['productDetails', variables.productId] });
       queryClient.invalidateQueries({ queryKey: ['adminReviews'] });
     },
     onError: (error) => {
-      const message = error.response?.data?.message || error.response?.data?.errors?.[0]?.msg || 'فشل إضافة التقييم، يرجى المحاولة مرة أخرى';
+      const message = error.response?.data?.message || error.response?.data?.errors?.[0]?.msg || 'Failed to submit review. Please try again.';
       toast.error(message);
     },
   });
@@ -85,9 +85,9 @@ export function useDeleteReview() {
     mutationFn: productsApi.deleteProductReview,
     onSuccess: (data, variables) => {
       if (variables?.isAdmin) {
-        toast.success('تم حذف التقييم');
+        toast.success('Review deleted');
       } else {
-        toast.success('تم حذف تقييمك بنجاح');
+        toast.success('Your review was deleted successfully');
       }
       if (variables?.productId) {
         queryClient.invalidateQueries({ queryKey: ['productReviews', variables.productId] });
@@ -98,7 +98,7 @@ export function useDeleteReview() {
       queryClient.invalidateQueries({ queryKey: ['reviews'] });
     },
     onError: (error) => {
-      const message = error.response?.data?.message || error.response?.data?.errors?.[0]?.msg || 'فشل حذف التقييم، يرجى المحاولة مرة أخرى';
+      const message = error.response?.data?.message || error.response?.data?.errors?.[0]?.msg || 'Failed to delete review. Please try again.';
       toast.error(message);
     },
   });

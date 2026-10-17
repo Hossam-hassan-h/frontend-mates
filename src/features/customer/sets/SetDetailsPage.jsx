@@ -73,7 +73,7 @@ export function SetDetailsPage() {
 
   if (isLoading) {
     return (
-      <div className="py-16 text-center max-w-4xl mx-auto px-4 dir-rtl">
+      <div className="py-16 text-center max-w-4xl mx-auto px-4 dir-ltr">
         <div className="animate-pulse space-y-6">
           <div className="h-10 bg-muted/60 rounded-xl w-1/2 mx-auto" />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -87,11 +87,11 @@ export function SetDetailsPage() {
 
   if (isError || !set) {
     return (
-      <div className="py-16 text-center max-w-xl mx-auto px-4 dir-rtl space-y-4">
+      <div className="py-16 text-center max-w-xl mx-auto px-4 space-y-4">
         <AlertCircle className="w-12 h-12 text-destructive mx-auto" />
-        <h2 className="text-xl font-bold">تعذر العثور على الطقم المطلوب</h2>
+        <h2 className="text-xl font-bold">Unable to find requested set</h2>
         <Button onClick={() => navigate(ROUTE_PATHS.SETS)} variant="outline" className="rounded-xl">
-          العودة للأطقم
+          Back to Sets
         </Button>
       </div>
     );
@@ -119,16 +119,16 @@ export function SetDetailsPage() {
   // Handler to add the set into cart (both component variants linked to setId)
   const handleAddSetToCart = async () => {
     if (!selectedVariant1 || !selectedVariant2) {
-      toast.error('يرجى تحديد المقاس واللون لكلتا القطعتين في الطقم');
+      toast.error('Please select size and color for both pieces in the set');
       return;
     }
 
     if (stock1 < 1) {
-      toast.error(`نعتذر، القطعة الأولى (${selectedVariant1.size?.code || ''}) غير متوفرة حالياً`);
+      toast.error(`Sorry, Person 1 item (${selectedVariant1.size?.code || ''}) is currently unavailable`);
       return;
     }
     if (stock2 < 1) {
-      toast.error(`نعتذر، القطعة الثانية (${selectedVariant2.size?.code || ''}) غير متوفرة حالياً`);
+      toast.error(`Sorry, Person 2 item (${selectedVariant2.size?.code || ''}) is currently unavailable`);
       return;
     }
 
@@ -149,10 +149,10 @@ export function SetDetailsPage() {
         setId: set._id,
       });
 
-      toast.success('تمت إضافة طقم الكابلز إلى سلة التسوق بنجاح ✨');
+      toast.success('Matching set added to your shopping bag ✨');
       openCart();
     } catch {
-      toast.error('حدث خطأ أثناء إضافة الطقم إلى السلة');
+      toast.error('An error occurred while adding the set to your bag');
     }
   };
 
@@ -174,7 +174,7 @@ export function SetDetailsPage() {
               {pieceNumber}
             </span>
             <h3 className="font-extrabold text-foreground text-sm">
-              القطعة {pieceNumber === 1 ? 'الأولى (Person 1)' : 'الثانية (Person 2)'}
+              Piece {pieceNumber === 1 ? '#1 (Person 1)' : '#2 (Person 2)'}
             </h3>
           </div>
           <span className="text-xs font-bold text-muted-foreground">
@@ -185,7 +185,7 @@ export function SetDetailsPage() {
         {/* Variant selection: Size pills */}
         <div className="space-y-2">
           <label className="text-xs font-bold text-muted-foreground block">
-            اختر المقاس: <strong className="text-foreground">{selectedVariant?.size?.code || 'لم يحدد'}</strong>
+            Select Size: <strong className="text-foreground">{selectedVariant?.size?.code || 'Not selected'}</strong>
           </label>
           <div className="flex flex-wrap gap-2">
             {availableSizes.map((code) => {
@@ -220,7 +220,7 @@ export function SetDetailsPage() {
         {/* Variant selection: Color selection */}
         <div className="space-y-2">
           <label className="text-xs font-bold text-muted-foreground block">
-            اختر اللون: <strong className="text-foreground">{getText(selectedVariant?.color?.name) || 'لم يحدد'}</strong>
+            Select Color: <strong className="text-foreground">{getText(selectedVariant?.color?.name) || 'Not selected'}</strong>
           </label>
           <div className="flex flex-wrap gap-2.5">
             {effectiveVariants.map((v) => {
@@ -234,7 +234,7 @@ export function SetDetailsPage() {
                   type="button"
                   disabled={!hasStock}
                   onClick={() => setSelectedVariant(v)}
-                  title={`${getText(v.color?.name)} (متاح: ${v.stockQuantity})`}
+                  title={`${getText(v.color?.name)} (${v.stockQuantity} available)`}
                   className={`w-9 h-9 rounded-full border-2 transition-all relative flex items-center justify-center cursor-pointer ${
                     isSelected ? 'ring-2 ring-primary ring-offset-2 border-white' : 'border-border/60'
                   } ${!hasStock ? 'opacity-30 cursor-not-allowed' : 'hover:scale-105'}`}
@@ -251,13 +251,13 @@ export function SetDetailsPage() {
 
         {/* Selected piece stock feedback */}
         <div className="pt-2 flex items-center justify-between text-xs">
-          <span className="text-muted-foreground">حالة توفر القطعة:</span>
+          <span className="text-muted-foreground">Availability:</span>
           {(selectedVariant?.stockQuantity || 0) > 0 ? (
             <span className="text-emerald-600 dark:text-emerald-400 font-bold">
-              متوفر ({selectedVariant.stockQuantity} قطعة)
+              In stock ({selectedVariant.stockQuantity} available)
             </span>
           ) : (
-            <span className="text-destructive font-bold">نفد من المخزن</span>
+            <span className="text-destructive font-bold">Out of stock</span>
           )}
         </div>
       </div>
@@ -265,15 +265,15 @@ export function SetDetailsPage() {
   };
 
   return (
-    <div className="space-y-8 py-6 dir-rtl text-start max-w-6xl mx-auto px-4">
+    <div className="space-y-8 py-6 text-start max-w-6xl mx-auto px-4">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground">
         <Link to={ROUTE_PATHS.HOME} className="hover:text-primary transition-colors">
-          الرئيسية
+          Home
         </Link>
         <span>/</span>
         <Link to={ROUTE_PATHS.SETS} className="hover:text-primary transition-colors">
-          أطقم الكابلز
+          Matching Sets
         </Link>
         <span>/</span>
         <span className="text-foreground">{setName}</span>
@@ -291,11 +291,11 @@ export function SetDetailsPage() {
           </div>
 
           <div className="text-start sm:text-end">
-            <span className="text-xs text-muted-foreground block font-bold">سعر الطقم بالكامل:</span>
-            <span className="text-3xl font-black text-primary">{bundlePriceEgp.toFixed(2)} ج.م</span>
+            <span className="text-xs text-muted-foreground block font-bold">Complete Set Price:</span>
+            <span className="text-3xl font-black text-primary">{bundlePriceEgp.toFixed(2)} EGP</span>
             <div className="mt-1 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 text-xs font-black">
               <Gift className="w-3.5 h-3.5" />
-              <span>+{pointsEarnedEgp.toFixed(2)} ج.م نقاط ولاء 5%</span>
+              <span>+{pointsEarnedEgp.toFixed(2)} EGP 5% loyalty credit</span>
             </div>
           </div>
         </div>
@@ -307,10 +307,10 @@ export function SetDetailsPage() {
       <div className="space-y-4">
         <h2 className="text-lg font-black text-foreground flex items-center gap-2">
           <Users className="w-5 h-5 text-primary" />
-          <span>تخصيص مقاس ولون كل شخص على حدة</span>
+          <span>Independent sizing and color for each person</span>
         </h2>
         <p className="text-xs text-muted-foreground font-medium">
-          اختر المقاس واللون لكل شخص بشكل مستقل. يُحسم المخزون مباشرة من القطعتين الأصليتين بدون تكرار.
+          Customize size and color for each person individually. Stock is deducted directly from both original garments without duplication.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -322,13 +322,13 @@ export function SetDetailsPage() {
       {/* Action Strip */}
       <div className="bg-card rounded-3xl border border-border/60 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
         <div className="space-y-1 text-center sm:text-start">
-          <span className="text-xs text-muted-foreground font-bold block">جاهز للطلب؟</span>
+          <span className="text-xs text-muted-foreground font-bold block">Ready to order?</span>
           <div className="text-sm font-extrabold text-foreground">
             {isOutOfStock ? (
-              <span className="text-destructive">أحد مقاسات الطقم غير متوفر حالياً بالمخزن</span>
+              <span className="text-destructive">One or more selected set pieces are currently out of stock</span>
             ) : (
               <span className="text-emerald-600 dark:text-emerald-400">
-                الطقم متوفر بالمخزن ({bundleStock} أطقم متاحة)
+                Set available in stock ({bundleStock} sets available)
               </span>
             )}
           </div>

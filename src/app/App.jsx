@@ -13,7 +13,7 @@ function AuthInitializer({ children }) {
   if (!isInitialized) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <Loader text="جاري استعادة جلسة تسجيل الدخول..." />
+        <Loader text="Restoring session..." />
       </div>
     );
   }

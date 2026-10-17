@@ -1,8 +1,8 @@
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 
 export function ErrorState({
-  title = 'حدث خطأ غير متوقع',
-  message = 'تعذر تحميل البيانات المطلوب. يرجى المحاولة مرة أخرى.',
+  title = 'An Unexpected Error Occurred',
+  message = 'Unable to load the requested data. Please try again.',
   onRetry,
 }) {
   return (
@@ -18,7 +18,7 @@ export function ErrorState({
           className="mt-2 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-destructive rounded-lg hover:bg-destructive/90 transition-colors"
         >
           <RefreshCw className="w-4 h-4" />
-          إعادة المحاولة
+          Try Again
         </button>
       )}
     </div>

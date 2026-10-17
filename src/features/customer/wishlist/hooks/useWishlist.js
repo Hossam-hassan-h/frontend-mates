@@ -31,13 +31,13 @@ export function useToggleWishlist() {
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['wishlist'] });
-      toast.success(variables.isFavorite ? 'تمت الإزالة من المفضلة' : 'تمت الإضافة للمفضلة');
+      toast.success(variables.isFavorite ? 'Removed from wishlist' : 'Added to wishlist');
     },
     onError: (error) => {
       if (error.message === 'AUTH_REQUIRED') {
-        toast.error('يرجى تسجيل الدخول أولاً لإضافة المنتجات إلى المفضلة');
+        toast.error('Please log in first to add products to your wishlist');
       } else {
-        toast.error(error.response?.data?.message || 'فشل تعديل المفضلة');
+        toast.error(error.response?.data?.message || 'Failed to update wishlist');
       }
     },
   });

@@ -40,7 +40,7 @@ export function AddProductForm({ onClose, product }) {
     defaultValues: {
       name: getText(product?.name || product?.title) || '',
       category: product?.category?._id || product?.category || '',
-      unit: product?.unit || 'كيلو',
+      unit: product?.unit || 'piece',
       description: getText(product?.description) || '',
       price: product?.originalPrice !== undefined ? product.originalPrice : (product?.price || ''),
       discountPercentage: product?.discountPercentage || '',
@@ -63,7 +63,7 @@ export function AddProductForm({ onClose, product }) {
       reset({
         name: getText(activeProduct.name || activeProduct.title) || '',
         category: catId,
-        unit: activeProduct.unit || 'كيلو',
+        unit: activeProduct.unit || 'piece',
         description: getText(activeProduct.description) || '',
         price: activeProduct.originalPrice !== undefined ? activeProduct.originalPrice : (activeProduct.price || ''),
         discountPercentage: activeProduct.discountPercentage !== undefined ? activeProduct.discountPercentage : '',
@@ -171,7 +171,7 @@ export function AddProductForm({ onClose, product }) {
         }
 
         await updateProductMutation.mutateAsync({ id: productId, data: formData });
-        toast.success('تم تعديل المنتج بنجاح');
+        toast.success('Product updated successfully');
       } else {
         const productName = data.name.trim();
         formData.append('name', productName);
@@ -204,12 +204,12 @@ export function AddProductForm({ onClose, product }) {
           }
         }
         await createProductMutation.mutateAsync(formData);
-        toast.success('تمت إضافة المنتج بنجاح');
+        toast.success('Product added successfully');
       }
       reset();
       onClose?.();
     } catch (error) {
-      const message = error.response?.data?.message || 'فشل حفظ المنتج، يرجى المحاولة مرة أخرى';
+      const message = error.response?.data?.message || 'Failed to save product, please try again';
       toast.error(message);
     }
   };
@@ -222,16 +222,16 @@ export function AddProductForm({ onClose, product }) {
   }));
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" dir="rtl">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" dir="ltr">
       {/* Product Name */}
       <div>
         <Label htmlFor="product-name">
-          اسم المنتج <span className="text-red-500">*</span>
+          Product Name <span className="text-red-500">*</span>
         </Label>
         <Input
           id="product-name"
           type="text"
-          placeholder="مثال: هودي قطن أوفر سايز / Oversized Cotton Hoodie"
+          placeholder="e.g. Oversized Cotton Hoodie"
           {...register('name')}
         />
         <FieldError error={errors.name} />
@@ -241,7 +241,7 @@ export function AddProductForm({ onClose, product }) {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <Label htmlFor="product-category">
-            التصنيف <span className="text-red-500">*</span>
+            Category <span className="text-red-500">*</span>
           </Label>
           <Select
             id="product-category"
@@ -249,7 +249,7 @@ export function AddProductForm({ onClose, product }) {
             {...register('category')}
           >
             <option value="">
-              {isCategoriesLoading ? 'جاري تحميل التصنيفات...' : 'اختر التصنيف'}
+              {isCategoriesLoading ? 'Loading categories...' : 'Select Category'}
             </option>
             {categoryOptions.map((cat) => (
               <option key={cat.id || cat._id} value={cat.value || cat.id || cat._id}>
@@ -263,23 +263,23 @@ export function AddProductForm({ onClose, product }) {
               onClick={() => refetchCategories()}
               className="mt-1 text-xs font-bold text-destructive hover:underline"
             >
-              تعذر تحميل التصنيفات — إعادة المحاولة
+              Failed to load categories — Retry
             </button>
           )}
           {!isCategoriesLoading && !isCategoriesError && categoryOptions.length === 0 && (
             <p className="mt-1 text-xs font-semibold text-muted-foreground">
-              لا توجد تصنيفات حالياً. أضف تصنيفاً قبل إنشاء المنتج.
+              No categories found. Please add a category first.
             </p>
           )}
           <FieldError error={errors.category} />
         </div>
 
         <div>
-          <Label htmlFor="product-gender">الفئة المستهدفة</Label>
+          <Label htmlFor="product-gender">Target Gender</Label>
           <Select id="product-gender" {...register('gender')}>
-            <option value="unisex">للجنسين (Unisex)</option>
-            <option value="men">رجالي (Men)</option>
-            <option value="women">نسائي (Women)</option>
+            <option value="unisex">Unisex</option>
+            <option value="men">Men</option>
+            <option value="women">Women</option>
           </Select>
           <FieldError error={errors.gender} />
         </div>
@@ -288,21 +288,21 @@ export function AddProductForm({ onClose, product }) {
       {/* Description & Visibility Status */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <Label htmlFor="product-description">وصف المنتج</Label>
+          <Label htmlFor="product-description">Product Description</Label>
           <Textarea
             id="product-description"
-            placeholder="وصف مختصر للمنتج"
+            placeholder="Short description of the product"
             rows={3}
             {...register('description')}
           />
           <FieldError error={errors.description} />
         </div>
         <div>
-          <Label htmlFor="product-status">حالة الظهور</Label>
+          <Label htmlFor="product-status">Visibility Status</Label>
           <Select id="product-status" {...register('status')}>
-            <option value="active">نشط</option>
-            <option value="hidden">مخفي</option>
-            <option value="archived">مؤرشف</option>
+            <option value="active">Active</option>
+            <option value="hidden">Hidden</option>
+            <option value="archived">Archived</option>
           </Select>
           <FieldError error={errors.status} />
         </div>
@@ -312,7 +312,7 @@ export function AddProductForm({ onClose, product }) {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <Label htmlFor="product-price">
-            سعر المنتج (ج.م / EGP) <span className="text-red-500">*</span>
+            Product Price (EGP) <span className="text-red-500">*</span>
           </Label>
           <Input
             id="product-price"
@@ -325,11 +325,11 @@ export function AddProductForm({ onClose, product }) {
         </div>
 
         <div>
-          <Label htmlFor="product-discount">نسبة الخصم (%)</Label>
+          <Label htmlFor="product-discount">Discount Percentage (%)</Label>
           <Input
             id="product-discount"
             type="number"
-            placeholder="اتركه فارغاً أو اكتب 0"
+            placeholder="Leave empty or enter 0"
             {...register('discountPercentage')}
           />
           <FieldError error={errors.discountPercentage} />
@@ -339,7 +339,7 @@ export function AddProductForm({ onClose, product }) {
       {/* Quantities Grid */}
       <div className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Label htmlFor="product-stock" className="text-xs">الكمية الحالية</Label>
+          <Label htmlFor="product-stock" className="text-xs">Current Stock</Label>
           <Input
             id="product-stock"
             type="number"
@@ -350,7 +350,7 @@ export function AddProductForm({ onClose, product }) {
         </div>
 
         <div>
-          <Label htmlFor="product-low-stock" className="text-xs">حد التنبيه المنخفض</Label>
+          <Label htmlFor="product-low-stock" className="text-xs">Low Stock Alert</Label>
           <Input
             id="product-low-stock"
             type="number"
@@ -361,7 +361,7 @@ export function AddProductForm({ onClose, product }) {
         </div>
 
         <div>
-          <Label htmlFor="product-min-purchase" className="text-xs">الحد الأدنى للشراء</Label>
+          <Label htmlFor="product-min-purchase" className="text-xs">Min Purchase Qty</Label>
           <Input
             id="product-min-purchase"
             type="number"
@@ -372,11 +372,11 @@ export function AddProductForm({ onClose, product }) {
         </div>
 
         <div>
-          <Label htmlFor="product-max-purchase" className="text-xs">الحد الأقصى للشراء</Label>
+          <Label htmlFor="product-max-purchase" className="text-xs">Max Purchase Qty</Label>
           <Input
             id="product-max-purchase"
             type="number"
-            placeholder="غير محدد"
+            placeholder="Unlimited"
             {...register('maxPurchaseQty')}
           />
           <FieldError error={errors.maxPurchaseQty} />
@@ -405,14 +405,14 @@ export function AddProductForm({ onClose, product }) {
           disabled={isLoading}
           className="h-11 rounded-xl border-[#1D6B36] text-sm font-bold text-[#1D6B36] hover:bg-[#1D6B36]/10 sm:text-base"
         >
-          إلغاء
+          Cancel
         </Button>
         <Button
           type="submit"
           disabled={isLoading}
           className="h-11 rounded-xl bg-[#1D6B36] text-sm font-bold text-white hover:bg-[#175A2D] sm:text-base"
         >
-          {isLoading ? 'جاري الحفظ...' : 'حفظ المنتج'}
+          {isLoading ? 'Saving...' : 'Save Product'}
         </Button>
       </div>
     </form>

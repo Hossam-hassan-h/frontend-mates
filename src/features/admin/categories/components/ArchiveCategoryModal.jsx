@@ -25,21 +25,21 @@ export function ArchiveCategoryModal({ isOpen, onClose, category, onConfirm, isD
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-3 animate-fade-in sm:p-4"
-      dir="rtl"
+      dir="ltr"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-md rounded-3xl bg-white p-4 shadow-2xl font-['Cairo'] text-start sm:p-6"
+        className="relative w-full max-w-md rounded-3xl bg-card border border-border/80 p-4 shadow-2xl font-sans text-start sm:p-6"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-[#E2E6DC]/60 pb-4">
-          <h2 className="text-lg font-black text-[#1A1F16]">تأكيد حذف التصنيف</h2>
+        <div className="flex items-center justify-between border-b border-border/60 pb-4">
+          <h2 className="text-lg font-black text-foreground">Confirm Category Deletion</h2>
           <button
             type="button"
             onClick={onClose}
             disabled={isDeleting}
-            aria-label="إغلاق"
-            className="rounded-lg p-1 text-[#6B7464] hover:bg-[#F0F2ED] disabled:opacity-50"
+            aria-label="Close"
+            className="rounded-lg p-1 text-muted-foreground hover:bg-secondary hover:text-foreground disabled:opacity-50"
           >
             <X className="h-5 w-5" />
           </button>
@@ -49,7 +49,7 @@ export function ArchiveCategoryModal({ isOpen, onClose, category, onConfirm, isD
           <div className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-4">
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
             <p className="text-xs font-bold leading-relaxed text-red-800">
-              سيتم حذف تصنيف «{getText(category.name)}» نهائياً من قاعدة البيانات. لا يمكن التراجع عن هذا الإجراء.
+              Category &quot;{getText(category.name)}&quot; will be permanently deleted from the database. This action cannot be undone.
             </p>
           </div>
 
@@ -61,7 +61,7 @@ export function ArchiveCategoryModal({ isOpen, onClose, category, onConfirm, isD
               className="flex h-11 items-center justify-center gap-2 rounded-xl bg-red-600 text-xs font-bold text-white hover:bg-red-700 sm:text-sm"
             >
               <Trash2 className="h-4 w-4" />
-              <span>{isDeleting ? 'جاري الحذف...' : 'حذف نهائياً'}</span>
+              <span>{isDeleting ? 'Deleting...' : 'Delete Permanently'}</span>
             </Button>
             <Button
               type="button"
@@ -70,7 +70,7 @@ export function ArchiveCategoryModal({ isOpen, onClose, category, onConfirm, isD
               disabled={isDeleting}
               className="h-11 rounded-xl border-[#1D6B36] text-xs font-bold text-[#1D6B36] hover:bg-[#1D6B36]/10 sm:text-sm"
             >
-              إلغاء
+              Cancel
             </Button>
           </div>
         </div>

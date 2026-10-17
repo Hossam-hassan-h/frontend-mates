@@ -70,15 +70,15 @@ PaginationLink.displayName = 'PaginationLink';
 
 const PaginationPrevious = ({
   className,
-  text = 'السابق',
-  dir = 'rtl',
+  text = 'Previous',
+  dir = 'ltr',
   disabled,
   ...props
 }) => {
   const isRtl = dir === 'rtl';
   return (
     <PaginationLink
-      aria-label="الانتقال إلى الصفحة السابقة"
+      aria-label="Go to previous page"
       size="default"
       disabled={disabled}
       className={cn('gap-1.5 px-3', className)}
@@ -93,15 +93,15 @@ PaginationPrevious.displayName = 'PaginationPrevious';
 
 const PaginationNext = ({
   className,
-  text = 'التالي',
-  dir = 'rtl',
+  text = 'Next',
+  dir = 'ltr',
   disabled,
   ...props
 }) => {
   const isRtl = dir === 'rtl';
   return (
     <PaginationLink
-      aria-label="الانتقال إلى الصفحة التالية"
+      aria-label="Go to next page"
       size="default"
       disabled={disabled}
       className={cn('gap-1.5 px-3', className)}
@@ -121,7 +121,7 @@ const PaginationEllipsis = ({ className, ...props }) => (
     {...props}
   >
     <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">صفحات إضافية</span>
+    <span className="sr-only">More pages</span>
   </span>
 );
 PaginationEllipsis.displayName = 'PaginationEllipsis';
@@ -170,10 +170,10 @@ export function AppPagination({
   totalItems,
   pageSize = 10,
   onPageChange,
-  itemLabel = 'عنصر',
+  itemLabel = 'items',
   showSummary = true,
   className = '',
-  dir = 'rtl',
+  dir = 'ltr',
 }) {
   // If totalPages is not given directly, calculate from totalItems and pageSize
   const calculatedTotalPages =
@@ -213,8 +213,8 @@ export function AppPagination({
       {/* Summary info if totalItems is provided */}
       {showSummary && totalItems !== undefined && (
         <p className="text-center text-xs font-bold text-[#6B7464] sm:text-start">
-          عرض <span className="text-[#1A1F16]">{startItem}</span>–
-          <span className="text-[#1A1F16]">{endItem}</span> من أصل{' '}
+          Showing <span className="text-[#1A1F16]">{startItem}</span>–
+          <span className="text-[#1A1F16]">{endItem}</span> of{' '}
           <span className="text-[#1A1F16]">{totalItems}</span> {itemLabel}
         </p>
       )}
@@ -240,7 +240,7 @@ export function AppPagination({
                     <PaginationLink
                       isActive={page === activePage}
                       onClick={() => handlePageClick(page)}
-                      aria-label={`الصفحة ${page}`}
+                      aria-label={`Page ${page}`}
                     >
                       {page}
                     </PaginationLink>

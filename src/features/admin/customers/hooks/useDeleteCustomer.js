@@ -18,12 +18,12 @@ export function useDeleteCustomer() {
       queryClient.invalidateQueries({
         queryKey: ['adminUsersList'],
       });
-      toast.success('تم حذف العميل بنجاح');
+      toast.success('Customer deleted successfully');
     },
     onError: (error) => {
       const message =
         error.response?.data?.message ||
-        'حدث خطأ أثناء حذف العميل. يرجى المحاولة مرة أخرى.';
+        'An error occurred while deleting customer. Please try again.';
       toast.error(message);
     },
   });

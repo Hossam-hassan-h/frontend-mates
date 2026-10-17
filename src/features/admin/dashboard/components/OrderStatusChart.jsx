@@ -5,7 +5,7 @@ export function OrderStatusChart({ data = [] }) {
   return (
     <Card className="min-w-0">
       <CardHeader className="p-4 sm:p-6">
-        <CardTitle className="text-sm font-extrabold sm:text-base">توزيع حالات الطلبات</CardTitle>
+        <CardTitle className="text-sm font-extrabold sm:text-base">Order Status Distribution</CardTitle>
       </CardHeader>
       <CardContent className="px-2 pb-4 sm:px-6 sm:pb-6">
         <div className="h-[260px] min-w-0 w-full dir-ltr sm:h-[300px]">

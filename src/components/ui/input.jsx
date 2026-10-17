@@ -29,7 +29,7 @@ const Input = React.forwardRef(({ className, type, ...props }, ref) => {
         className="absolute inset-y-0 left-0 flex w-11 items-center justify-center rounded-l-xl text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
         onClick={() => setIsPasswordVisible((visible) => !visible)}
         disabled={props.disabled}
-        aria-label={isPasswordVisible ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
+        aria-label={isPasswordVisible ? 'Hide password' : 'Show password'}
         aria-pressed={isPasswordVisible}
       >
         {isPasswordVisible ? (

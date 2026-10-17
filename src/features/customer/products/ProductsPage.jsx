@@ -183,21 +183,21 @@ export function ProductsPage() {
 
   const activeCategoryObj = categories.find((c) => (c._id || c.id) === categoryParam);
   const pageTitle = activeCategoryObj
-    ? `قسم ${getText(activeCategoryObj.name)}`
+    ? `${getText(activeCategoryObj.name)} Collection`
     : genderParam === 'men'
-    ? 'أزياء رجالية'
+    ? 'Men\'s Collection'
     : genderParam === 'women'
-    ? 'أزياء نسائية'
-    : 'تشكيلة ملابس Mates Store';
+    ? 'Women\'s Collection'
+    : 'Mates Store Clothing Collection';
 
   return (
-    <div className="space-y-6 py-4 animate-fade-in dir-rtl text-start">
+    <div className="space-y-6 py-4 animate-fade-in text-start">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/60 pb-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">{pageTitle}</h1>
           <p className="text-xs text-muted-foreground mt-1 font-medium">
-            تصفح أحدث الأزياء والقطع العصرية من Mates Store للأفراد والأزواج
+            Explore the latest minimalist apparel and matching sets from Mates Store.
           </p>
         </div>
 
@@ -206,7 +206,7 @@ export function ProductsPage() {
             onClick={handleClearFilters}
             className="self-start sm:self-auto text-xs font-bold text-destructive hover:bg-destructive/10 px-3 py-1.5 rounded-lg border border-destructive/20 transition-colors"
           >
-            مسح جميع الفلاتر
+            Clear All Filters
           </button>
         )}
       </div>
@@ -219,7 +219,7 @@ export function ProductsPage() {
             <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               type="text"
-              placeholder="ابحث عن هودي، تيشيرت، طقم كابلز..."
+              placeholder="Search for hoodies, tees, matching sets..."
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               className="w-full ps-10 pe-4 py-2.5 rounded-2xl border border-input bg-background text-xs focus:outline-none focus:ring-2 focus:ring-primary/40 font-medium"
@@ -229,10 +229,10 @@ export function ProductsPage() {
           {/* Gender Filter Pills */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
             {[
-              { id: '', label: 'الكل' },
-              { id: 'men', label: 'رجالي' },
-              { id: 'women', label: 'نسائي' },
-              { id: 'unisex', label: 'للجنسين' },
+              { id: '', label: 'All' },
+              { id: 'men', label: 'Men' },
+              { id: 'women', label: 'Women' },
+              { id: 'unisex', label: 'Unisex' },
             ].map((g) => (
               <button
                 key={g.id}
@@ -254,7 +254,7 @@ export function ProductsPage() {
           {/* Size Filter */}
           {sizes.length > 0 && (
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-muted-foreground">المقاس:</span>
+              <span className="font-extrabold text-muted-foreground">Size:</span>
               <div className="flex items-center gap-1.5 flex-wrap">
                 {sizes.map((sz) => (
                   <button
@@ -276,7 +276,7 @@ export function ProductsPage() {
           {/* Color Filter */}
           {colors.length > 0 && (
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-muted-foreground">اللون:</span>
+              <span className="font-extrabold text-muted-foreground">Color:</span>
               <div className="flex items-center gap-1.5 flex-wrap">
                 {colors.map((c) => {
                   const isSelected = colorParam === c.slug;
@@ -314,7 +314,7 @@ export function ProductsPage() {
                   : 'bg-secondary/30 hover:bg-secondary text-foreground'
               }`}
             >
-              جميع الأقسام
+              All Categories
             </button>
             {categories.map((cat) => {
               const catId = cat._id || cat.id;
@@ -349,9 +349,9 @@ export function ProductsPage() {
         <ErrorState onRetry={refetch} />
       ) : filteredProducts.length === 0 ? (
         <EmptyState
-          title="لا توجد قطع تطابق اختياراتك"
-          description="جرب إزالة أو تغيير فلاتر المقاس أو اللون أو البحث للعثور على ملابس أخرى"
-          actionLabel="عرض جميع الملابس"
+          title="No items match your selection"
+          description="Try adjusting or clearing your size, color, or search filters to find other items."
+          actionLabel="View All Products"
           onAction={handleClearFilters}
         />
       ) : (

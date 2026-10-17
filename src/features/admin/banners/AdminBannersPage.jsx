@@ -34,7 +34,7 @@ export function AdminBannersPage() {
     const file = e.target.files?.[0];
     if (file) {
       if (!file.type.startsWith('image/')) {
-        toast.error('يرجى اختيار ملف صورة صالح (JPEG, PNG, WebP)');
+        toast.error('Please select a valid image file (JPEG, PNG, WebP)');
         return;
       }
       setSelectedFile(file);
@@ -56,7 +56,7 @@ export function AdminBannersPage() {
   const handleUploadSubmit = (e) => {
     e.preventDefault();
     if (!selectedFile) {
-      toast.warning('يرجى اختيار صورة الهيرو أولاً');
+      toast.warning('Please select a hero image first');
       return;
     }
 
@@ -85,14 +85,14 @@ export function AdminBannersPage() {
   };
 
   if (isLoading) {
-    return <Loader text="جاري تحميل إعدادات صورة الهيرو..." />;
+    return <Loader text="Loading hero banner settings..." />;
   }
 
   if (isError) {
     return (
       <ErrorState
-        title="فشل تحميل بيانات الهيرو"
-        message="حدث خطأ أثناء الاتصال بالخادم لجلب صورة الهيرو."
+        title="Failed to load hero banner"
+        message="An error occurred while connecting to the server to fetch hero banner."
         onRetry={refetch}
       />
     );
@@ -101,16 +101,16 @@ export function AdminBannersPage() {
   const isSaving = createBannerMutation.isPending || deleteBannerMutation.isPending;
 
   return (
-    <div className="space-y-6 dir-rtl text-start font-['Cairo']">
+    <div className="space-y-6 text-start font-sans">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/60 pb-5">
         <div>
           <h1 className="text-xl sm:text-2xl font-black text-foreground flex items-center gap-2.5">
             <ImageIcon className="w-6 h-6 text-[#1D6B36]" />
-            <span>صورة الهيرو بالصفحة الرئيسية</span>
+            <span>Homepage Hero Banner</span>
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 leading-relaxed">
-            التحكم في الصورة المعروضة في قسم الهيرو (Hero Section) أعلى الصفحة الرئيسية للمتجر.
+            Manage the image displayed in the hero section at the top of the storefront homepage.
           </p>
         </div>
 
@@ -123,7 +123,7 @@ export function AdminBannersPage() {
             className="gap-2 rounded-xl text-xs font-bold border-destructive/40 text-destructive hover:bg-destructive/10 self-start sm:self-auto"
           >
             <RefreshCw className="w-4 h-4" />
-            <span>استعادة الصورة الافتراضية</span>
+            <span>Restore Default Banner</span>
           </Button>
         )}
       </div>
@@ -135,7 +135,7 @@ export function AdminBannersPage() {
             <div className="p-4 border-b border-border/60 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-[#1D6B36]" />
-                <span className="text-xs sm:text-sm font-bold text-foreground">الصورة الحالية في الموقع</span>
+                <span className="text-xs sm:text-sm font-bold text-foreground">Current Website Banner</span>
               </div>
 
               <span
@@ -146,7 +146,7 @@ export function AdminBannersPage() {
                 }`}
               >
                 <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                <span>{hasCustomBanner ? 'صورة مخصصة مفعلة' : 'الصورة الافتراضية للمتجر'}</span>
+                <span>{hasCustomBanner ? 'Custom banner active' : 'Default store banner'}</span>
               </span>
             </div>
 
@@ -165,14 +165,14 @@ export function AdminBannersPage() {
                     Mates Store
                   </p>
                   <p className="text-xs text-[#F5F1E8]/80 max-w-sm">
-                    معاينة حية لطريقة ظهور النص فوق صورة الهيرو في الصفحة الرئيسية
+                    Live preview of text overlay on the hero banner on the homepage
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="p-3.5 bg-secondary/15 border-t border-border/60 text-[11px] text-muted-foreground flex items-center justify-between">
-              <span>نسبة العرض الموصى بها: 16:9 أو 21:9 بدقة عالية</span>
+              <span>Recommended aspect ratio: 16:9 or 21:9 in high resolution</span>
               {hasCustomBanner && (
                 <button
                   type="button"
@@ -181,7 +181,7 @@ export function AdminBannersPage() {
                   className="text-destructive hover:underline font-bold inline-flex items-center gap-1"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
-                  <span>حذف واسترجاع الافتراضي</span>
+                  <span>Delete & Restore Default</span>
                 </button>
               )}
             </div>
@@ -194,10 +194,10 @@ export function AdminBannersPage() {
             <div>
               <h2 className="text-sm sm:text-base font-extrabold text-foreground flex items-center gap-2">
                 <Upload className="w-4 h-4 text-[#1D6B36]" />
-                <span>{hasCustomBanner ? 'استبدال صورة الهيرو' : 'رفع صورة هيرو جديدة'}</span>
+                <span>{hasCustomBanner ? 'Replace Hero Banner' : 'Upload New Hero Banner'}</span>
               </h2>
               <p className="text-xs text-muted-foreground mt-1">
-                عند رفع صورة جديدة سيتم استبدال الصورة الحالية فوراً وتحديث واجهة المتجر.
+                Uploading a new image will immediately replace the current banner and update the storefront.
               </p>
             </div>
 
@@ -223,12 +223,12 @@ export function AdminBannersPage() {
                   <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden shadow-inner">
                     <img
                       src={previewUrl}
-                      alt="معاينة الصورة الجديدة"
+                      alt="New banner preview"
                       className="w-full h-full object-cover object-center"
                     />
                     <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-white font-bold text-xs gap-2 backdrop-blur-xs">
                       <Upload className="w-4 h-4" />
-                      <span>اختيار صورة أخرى</span>
+                      <span>Choose another image</span>
                     </div>
                   </div>
                 ) : (
@@ -237,10 +237,10 @@ export function AdminBannersPage() {
                       <Upload className="w-6 h-6" />
                     </div>
                     <p className="text-xs sm:text-sm font-bold text-foreground">
-                      اضغط هنا لاختيار صورة من جهازك
+                      Click here to choose an image from your device
                     </p>
                     <p className="text-[11px] text-muted-foreground max-w-xs mx-auto">
-                      يدعم ملفات JPG, PNG, WebP حتى 10 ميجابايت.
+                      Supports JPG, PNG, WebP files up to 10 MB.
                     </p>
                   </div>
                 )}
@@ -256,7 +256,7 @@ export function AdminBannersPage() {
                     disabled={isSaving}
                     className="rounded-xl text-xs font-bold px-4 h-10"
                   >
-                    إلغاء التحديد
+                    Deselect
                   </Button>
                 )}
 
@@ -268,12 +268,12 @@ export function AdminBannersPage() {
                   {createBannerMutation.isPending ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>جاري الرفع والحفظ...</span>
+                      <span>Uploading and saving...</span>
                     </>
                   ) : (
                     <>
                       <Check className="w-4 h-4" />
-                      <span>تعيين كصورة رئيسية</span>
+                      <span>Set as Hero Banner</span>
                     </>
                   )}
                 </Button>
@@ -287,10 +287,10 @@ export function AdminBannersPage() {
       <ConfirmDialog
         isOpen={isResetConfirmOpen}
         variant="danger"
-        title="استعادة صورة الهيرو الافتراضية"
-        description="هل أنت متأكد من حذف الصورة المخصصة والرجوع إلى الصورة الافتراضية المعتمدة للمتجر؟"
-        confirmText="استعادة الافتراضي"
-        cancelText="إلغاء"
+        title="Restore Default Hero Banner"
+        description="Are you sure you want to remove the custom banner and restore the store's default banner?"
+        confirmText="Restore Default"
+        cancelText="Cancel"
         isLoading={deleteBannerMutation.isPending}
         onCancel={() => setIsResetConfirmOpen(false)}
         onConfirm={handleConfirmReset}

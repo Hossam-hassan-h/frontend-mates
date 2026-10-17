@@ -46,30 +46,30 @@ export function AdminReviewsPage() {
   };
 
   if (isLoading) {
-    return <Loader text="جاري تحميل تقييمات العملاء..." />;
+    return <Loader text="Loading customer reviews..." />;
   }
 
   if (isError) {
     return (
       <ErrorState
-        title="فشل تحميل التقييمات"
-        message="حدث خطأ أثناء الاتصال بالخادم لجلب التقييمات."
+        title="Failed to load reviews"
+        message="An error occurred while connecting to the server to fetch reviews."
         onRetry={refetch}
       />
     );
   }
 
   return (
-    <div className="space-y-6 dir-rtl text-start">
+    <div className="space-y-6 text-start">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-black text-foreground flex items-center gap-2">
             <MessageSquare className="w-6 h-6 text-primary" />
-            <span>تقييمات العملاء</span>
+            <span>Customer Reviews</span>
           </h1>
           <p className="text-xs text-muted-foreground mt-1">
-            إدارة ومراجعة تقييمات المنتجات المكتوبة من قبل العملاء ({reviews.length} تقييم)
+            Manage and review product reviews submitted by customers ({reviews.length} reviews)
           </p>
         </div>
 
@@ -78,7 +78,7 @@ export function AdminReviewsPage() {
           <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
             type="text"
-            placeholder="بحث بالمنتج أو العميل أو النص..."
+            placeholder="Search by product, customer, or text..."
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -92,11 +92,11 @@ export function AdminReviewsPage() {
       {/* Reviews Table / List */}
       {filteredReviews.length === 0 ? (
         <EmptyState
-          title={searchTerm ? 'لا توجد نتائج مطابقة' : 'لا توجد تقييمات حتى الآن'}
+          title={searchTerm ? 'No matching results' : 'No reviews yet'}
           description={
             searchTerm
-              ? 'لم يتم العثور على أي تقييم يطابق نص البحث.'
-              : 'لم يقم أي عميل بإضافة تقييم لأي منتج بعد.'
+              ? 'No reviews found matching your search term.'
+              : 'No customer has reviewed any product yet.'
           }
         />
       ) : (
@@ -105,12 +105,12 @@ export function AdminReviewsPage() {
             <table className="w-full text-xs text-start">
               <thead className="bg-secondary/40 text-muted-foreground border-b border-border/60 font-bold">
                 <tr>
-                  <th className="py-3.5 px-4 text-start">المنتج</th>
-                  <th className="py-3.5 px-4 text-start">المستخدم</th>
-                  <th className="py-3.5 px-4 text-start">التقييم</th>
-                  <th className="py-3.5 px-4 text-start">التعليق</th>
-                  <th className="py-3.5 px-4 text-start">التاريخ</th>
-                  <th className="py-3.5 px-4 text-center">الإجراءات</th>
+                  <th className="py-3.5 px-4 text-start">Product</th>
+                  <th className="py-3.5 px-4 text-start">Customer</th>
+                  <th className="py-3.5 px-4 text-start">Rating</th>
+                  <th className="py-3.5 px-4 text-start">Comment</th>
+                  <th className="py-3.5 px-4 text-start">Date</th>
+                  <th className="py-3.5 px-4 text-center">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/60">
@@ -131,7 +131,7 @@ export function AdminReviewsPage() {
                           </div>
                         )}
                         <span className="font-bold text-foreground truncate max-w-[150px]">
-                          {rev.product?.name || rev.product?.title || 'منتج غير محدد'}
+                          {rev.product?.name || rev.product?.title || 'Unspecified Product'}
                         </span>
                       </div>
                     </td>
@@ -140,7 +140,7 @@ export function AdminReviewsPage() {
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-1.5 text-muted-foreground font-semibold">
                         <User className="w-3.5 h-3.5 shrink-0" />
-                        <span className="text-foreground">{rev.user?.name || 'عميل'}</span>
+                        <span className="text-foreground">{rev.user?.name || 'Customer'}</span>
                       </div>
                     </td>
 
@@ -164,7 +164,7 @@ export function AdminReviewsPage() {
                     {/* Comment */}
                     <td className="py-3 px-4 max-w-xs">
                       <p className="truncate text-muted-foreground" title={rev.title}>
-                        {rev.title || 'بدون تعليق مكتوب'}
+                        {rev.title || 'No comment provided'}
                       </p>
                     </td>
 
@@ -187,8 +187,8 @@ export function AdminReviewsPage() {
                         onClick={() => setReviewToDelete(rev)}
                         disabled={deleteReviewMutation.isPending}
                         className="p-1.5 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
-                        title="حذف التقييم"
-                        aria-label="حذف التقييم"
+                        title="Delete review"
+                        aria-label="Delete review"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -204,7 +204,7 @@ export function AdminReviewsPage() {
             totalItems={filteredReviews.length}
             pageSize={REVIEWS_PER_PAGE}
             onPageChange={setCurrentPage}
-            itemLabel="تقييم"
+            itemLabel="review"
           />
         </Card>
       )}
@@ -212,10 +212,10 @@ export function AdminReviewsPage() {
       {/* Delete Confirmation Modal */}
       <ConfirmDialog
         isOpen={Boolean(reviewToDelete)}
-        title="هل أنت متأكد من حذف هذا التقييم؟"
-        description="سيتم حذف هذا التقييم نهائياً ولن يظهر في المتجر مرة أخرى."
-        confirmText="حذف"
-        cancelText="إلغاء"
+        title="Are you sure you want to delete this review?"
+        description="This review will be permanently deleted and will no longer appear on the store."
+        confirmText="Delete"
+        cancelText="Cancel"
         isLoading={deleteReviewMutation.isPending}
         onCancel={() => setReviewToDelete(null)}
         onConfirm={handleConfirmDelete}

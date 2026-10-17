@@ -16,11 +16,11 @@ export function useCreateBanner() {
   return useMutation({
     mutationFn: bannersApi.createBanner,
     onSuccess: () => {
-      toast.success('تم تحديث صورة الهيرو بنجاح');
+      toast.success('Hero banner updated successfully');
       queryClient.invalidateQueries({ queryKey: ['banners'] });
     },
     onError: (error) => {
-      const message = error.response?.data?.message || 'فشل تحديث صورة الهيرو، يرجى المحاولة مرة أخرى';
+      const message = error.response?.data?.message || 'Failed to update hero banner, please try again';
       toast.error(message);
     },
   });
@@ -32,11 +32,11 @@ export function useUpdateBanner() {
   return useMutation({
     mutationFn: bannersApi.updateBanner,
     onSuccess: () => {
-      toast.success('تم تحديث صورة الهيرو بنجاح');
+      toast.success('Hero banner updated successfully');
       queryClient.invalidateQueries({ queryKey: ['banners'] });
     },
     onError: (error) => {
-      const message = error.response?.data?.message || 'فشل تحديث صورة الهيرو';
+      const message = error.response?.data?.message || 'Failed to update hero banner';
       toast.error(message);
     },
   });
@@ -48,11 +48,11 @@ export function useDeleteBanner() {
   return useMutation({
     mutationFn: bannersApi.deleteBanner,
     onSuccess: () => {
-      toast.success('تمت استعادة الصورة الافتراضية بنجاح');
+      toast.success('Default banner restored successfully');
       queryClient.invalidateQueries({ queryKey: ['banners'] });
     },
     onError: (error) => {
-      const message = error.response?.data?.message || 'فشل استعادة الصورة الافتراضية';
+      const message = error.response?.data?.message || 'Failed to restore default banner';
       toast.error(message);
     },
   });

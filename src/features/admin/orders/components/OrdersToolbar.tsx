@@ -52,31 +52,31 @@ export const OrdersToolbar: React.FC<OrdersToolbarProps> = ({
     (searchInput.trim() ? 1 : 0);
 
   return (
-    <div className="space-y-4" dir="rtl">
+    <div className="space-y-4" dir="ltr">
       {/* Search & Filter Toolbar Card (matches AdminUsersPage) */}
-      <Card className="p-4 rounded-2xl border-[#E2E6DC] bg-white shadow-xs space-y-3.5">
+      <Card className="p-4 rounded-2xl border-border/80 bg-card shadow-xs space-y-3.5">
         {/* Row 1: Full-width Search Input */}
         <OrdersSearchBar value={searchInput} onChange={onSearchChange} />
 
         {/* Row 2: Filter Controls Row */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#E2E6DC]/60">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-border/60">
           <div className="flex flex-wrap items-center gap-3">
             {/* Sort Dropdown */}
             <div className="flex items-center gap-1.5">
-              <label htmlFor="orders-sort" className="text-xs font-bold text-[#6B7464]">
-                الترتيب:
+              <label htmlFor="orders-sort" className="text-xs font-bold text-muted-foreground">
+                Sort by:
               </label>
               <select
                 id="orders-sort"
                 value={sort}
                 onChange={(e) => onSortChange(e.target.value as OrderSort)}
-                aria-label="ترتيب الطلبات"
-                className="h-9 rounded-xl border border-[#E2E6DC] bg-white px-3 text-xs font-semibold text-[#1A1F16] focus:border-[#1D6B36] focus:outline-none focus:ring-2 focus:ring-[#1D6B36]/20 transition-all cursor-pointer"
+                aria-label="Sort orders"
+                className="h-9 rounded-xl border border-input bg-background text-foreground px-3 text-xs font-semibold focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer"
               >
-                <option value="-createdAt">الأحدث أولاً</option>
-                <option value="createdAt">الأقدم أولاً</option>
-                <option value="-finalTotal">الأعلى قيمة</option>
-                <option value="finalTotal">الأقل قيمة</option>
+                <option value="-createdAt">Newest first</option>
+                <option value="createdAt">Oldest first</option>
+                <option value="-finalTotal">Highest amount</option>
+                <option value="finalTotal">Lowest amount</option>
               </select>
             </div>
 
@@ -92,7 +92,7 @@ export const OrdersToolbar: React.FC<OrdersToolbarProps> = ({
           <div className="flex items-center gap-2">
             {activeFiltersCount > 0 && (
               <Badge variant="secondary" className="bg-[#1D6B36]/10 text-[#1D6B36] font-bold text-xs">
-                {activeFiltersCount} فلتر نشط
+                {activeFiltersCount} active filter(s)
               </Badge>
             )}
             {hasActiveFilters && (
@@ -101,10 +101,10 @@ export const OrdersToolbar: React.FC<OrdersToolbarProps> = ({
                 size="sm"
                 onClick={onResetFilters}
                 className="h-9 gap-1.5 rounded-xl border-dashed border-[#E2E6DC] text-xs font-bold text-rose-600 hover:bg-rose-50 hover:border-rose-300 transition-colors cursor-pointer"
-                title="إعادة تعيين الفلاتر"
+                title="Reset filters"
               >
                 <RotateCcw className="h-3.5 w-3.5" />
-                <span>إعادة ضبط</span>
+                <span>Reset</span>
               </Button>
             )}
           </div>

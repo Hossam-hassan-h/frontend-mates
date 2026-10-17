@@ -7,9 +7,9 @@ export function TotalCustomersCard({ totalCustomers = 0, growth = '+0%' }) {
       <CardContent className="p-4 sm:p-6">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-xs font-bold text-muted-foreground">عدد العملاء</p>
+            <p className="text-xs font-bold text-muted-foreground">Total Customers</p>
             <h3 className="text-xl font-extrabold text-foreground sm:text-2xl">
-              {totalCustomers.toLocaleString('ar-EG')} عميل
+              {totalCustomers.toLocaleString('en-US')} customers
             </h3>
           </div>
           <div className="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-600 flex items-center justify-center">
@@ -19,7 +19,7 @@ export function TotalCustomersCard({ totalCustomers = 0, growth = '+0%' }) {
 
         <div className="mt-4 flex items-center gap-1 text-xs font-bold text-amber-600">
           <TrendingUp className="w-3.5 h-3.5" />
-          <span>{growth} مقارنة بالفترة السابقة</span>
+          <span>{growth} vs previous period</span>
         </div>
       </CardContent>
     </Card>

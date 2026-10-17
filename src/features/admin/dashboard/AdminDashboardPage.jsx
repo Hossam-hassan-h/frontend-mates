@@ -16,21 +16,21 @@ export function AdminDashboardPage() {
   const { stats, dateRange, setDateRange, isLoading, isFetching, isError, refetch } = useDashboard();
 
   if (isLoading) {
-    return <Loader text="جاري تحميل إحصائيات لوحة التحكم..." />;
+    return <Loader text="Loading dashboard statistics..." />;
   }
 
   if (isError) {
-    return <ErrorState onRetry={refetch} message="تعذر تحميل بيانات الإحصائيات، يرجى المحاولة مرة أخرى." />;
+    return <ErrorState onRetry={refetch} message="Failed to load statistics, please try again." />;
   }
 
   return (
-    <div className="min-w-0 space-y-5 animate-fade-in text-start sm:space-y-6 lg:space-y-8" dir="rtl">
+    <div className="min-w-0 space-y-5 animate-fade-in text-start sm:space-y-6 lg:space-y-8" dir="ltr">
       {/* Header & Filter Controls */}
       <div className="flex min-w-0 flex-col justify-between gap-4 border-b border-border/40 pb-4 lg:flex-row lg:items-center lg:pb-5">
         <div className="min-w-0">
-          <h1 className="text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">لوحة التحكم والأداء</h1>
+          <h1 className="text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">Dashboard & Performance</h1>
           <p className="text-xs text-muted-foreground mt-1">
-            متابعة المبيعات، الطلبات، والعملاء في متجر قاسم بالوقت الفعلي
+            Real-time sales, orders, and customer tracking for Mates Store
           </p>
         </div>
 
@@ -39,7 +39,7 @@ export function AdminDashboardPage() {
             onClick={() => refetch()}
             disabled={isFetching}
             className="shrink-0 rounded-xl border border-border/60 p-2 text-muted-foreground transition-colors hover:bg-secondary"
-            title="تحديث البيانات"
+            title="Refresh data"
           >
             <RefreshCw className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} />
           </button>
@@ -65,7 +65,7 @@ export function AdminDashboardPage() {
             <Coins className="w-5 h-5" />
           </div>
           <div className="min-w-0">
-            <span className="text-[10px] text-muted-foreground block font-bold">مبيعات اليوم</span>
+            <span className="text-[10px] text-muted-foreground block font-bold">Today&apos;s Sales</span>
             <span className="text-sm font-black text-foreground">{stats?.revenueToday?.toFixed(2)} egp</span>
           </div>
         </Card>
@@ -74,7 +74,7 @@ export function AdminDashboardPage() {
             <Calendar className="w-5 h-5" />
           </div>
           <div className="min-w-0">
-            <span className="text-[10px] text-muted-foreground block font-bold">مبيعات هذا الأسبوع</span>
+            <span className="text-[10px] text-muted-foreground block font-bold">This Week&apos;s Sales</span>
             <span className="text-sm font-black text-foreground">{stats?.revenueThisWeek?.toFixed(2)} egp</span>
           </div>
         </Card>
@@ -83,7 +83,7 @@ export function AdminDashboardPage() {
             <Calendar className="w-5 h-5" />
           </div>
           <div className="min-w-0">
-            <span className="text-[10px] text-muted-foreground block font-bold">مبيعات هذا الشهر</span>
+            <span className="text-[10px] text-muted-foreground block font-bold">This Month&apos;s Sales</span>
             <span className="text-sm font-black text-foreground">{stats?.revenueThisMonth?.toFixed(2)} egp</span>
           </div>
         </Card>
@@ -92,8 +92,8 @@ export function AdminDashboardPage() {
             <ShoppingBag className="w-5 h-5" />
           </div>
           <div className="min-w-0">
-            <span className="text-[10px] text-muted-foreground block font-bold">إجمالي قطع المبيعات</span>
-            <span className="text-sm font-black text-foreground">{stats?.totalSoldItems} قطعة</span>
+            <span className="text-[10px] text-muted-foreground block font-bold">Total Items Sold</span>
+            <span className="text-sm font-black text-foreground">{stats?.totalSoldItems} items</span>
           </div>
         </Card>
       </div>
@@ -102,35 +102,35 @@ export function AdminDashboardPage() {
       <div className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 lg:gap-4">
         <Card className="space-y-1 p-3 sm:p-4">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-muted-foreground font-extrabold">إجمالي المنتجات</span>
+            <span className="text-[10px] text-muted-foreground font-extrabold">Total Products</span>
             <Package className="w-4 h-4 text-muted-foreground" />
           </div>
           <p className="text-lg font-black text-foreground">{stats?.totalProducts}</p>
         </Card>
         <Card className="space-y-1 p-3 sm:p-4">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-muted-foreground font-extrabold">التصنيفات</span>
+            <span className="text-[10px] text-muted-foreground font-extrabold">Categories</span>
             <List className="w-4 h-4 text-muted-foreground" />
           </div>
           <p className="text-lg font-black text-foreground">{stats?.totalCategories}</p>
         </Card>
         <Card className="space-y-1 p-3 sm:p-4">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-muted-foreground font-extrabold">منتجات الخصم</span>
+            <span className="text-[10px] text-muted-foreground font-extrabold">Discounted Items</span>
             <Tag className="w-4 h-4 text-amber-500" />
           </div>
           <p className="text-lg font-black text-foreground">{stats?.totalDiscountedProducts}</p>
         </Card>
         <Card className="space-y-1 p-3 sm:p-4">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-muted-foreground font-extrabold">نفد المخزون</span>
+            <span className="text-[10px] text-muted-foreground font-extrabold">Out of Stock</span>
             <AlertOctagon className="w-4 h-4 text-red-500" />
           </div>
           <p className="text-lg font-black text-red-600">{stats?.productsOutOfStock}</p>
         </Card>
         <Card className="space-y-1 p-3 sm:p-4">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-muted-foreground font-extrabold">مخزون منخفض</span>
+            <span className="text-[10px] text-muted-foreground font-extrabold">Low Stock</span>
             <AlertTriangle className="w-4 h-4 text-amber-500" />
           </div>
           <p className="text-lg font-black text-amber-600">{stats?.lowStockProducts}</p>
@@ -152,7 +152,7 @@ export function AdminDashboardPage() {
       <div className="grid min-w-0 grid-cols-1 gap-4 xl:grid-cols-3 lg:gap-6">
         {/* Latest Orders */}
         <Card className="space-y-4 p-4 sm:p-5">
-          <h3 className="font-extrabold text-sm border-b border-border/40 pb-2">آخر الطلبات المستلمة</h3>
+          <h3 className="font-extrabold text-sm border-b border-border/40 pb-2">Recent Orders</h3>
           <div className="divide-y divide-border/40">
             {stats?.latestOrders?.length > 0 ? (
               stats.latestOrders.map((order) => (
@@ -168,14 +168,14 @@ export function AdminDashboardPage() {
                 </div>
               ))
             ) : (
-              <p className="py-4 text-center text-xs text-muted-foreground">لا توجد طلبات حديثة</p>
+              <p className="py-4 text-center text-xs text-muted-foreground">No recent orders</p>
             )}
           </div>
         </Card>
 
         {/* Latest Customers */}
         <Card className="space-y-4 p-4 sm:p-5">
-          <h3 className="font-extrabold text-sm border-b border-border/40 pb-2">أحدث العملاء المسجلين</h3>
+          <h3 className="font-extrabold text-sm border-b border-border/40 pb-2">Recent Customers</h3>
           <div className="divide-y divide-border/40">
             {stats?.latestCustomers?.length > 0 ? (
               stats.latestCustomers.map((user) => (
@@ -190,14 +190,14 @@ export function AdminDashboardPage() {
                 </div>
               ))
             ) : (
-              <p className="py-4 text-center text-xs text-muted-foreground">لا يوجد عملاء جدد</p>
+              <p className="py-4 text-center text-xs text-muted-foreground">No new customers</p>
             )}
           </div>
         </Card>
 
         {/* Latest Products */}
         <Card className="space-y-4 p-4 sm:p-5">
-          <h3 className="font-extrabold text-sm border-b border-border/40 pb-2">آخر الأصناف المضافة</h3>
+          <h3 className="font-extrabold text-sm border-b border-border/40 pb-2">Recently Added Products</h3>
           <div className="divide-y divide-border/40">
             {stats?.latestProducts?.length > 0 ? (
               stats.latestProducts.map((prod) => (
@@ -206,14 +206,14 @@ export function AdminDashboardPage() {
                     <img src={prod.imageCover || prod.image} alt="" className="w-8 h-8 rounded-lg object-cover" />
                     <div className="min-w-0">
                       <p className="truncate font-bold text-foreground">{getText(prod.title || prod.name)}</p>
-                      <p className="text-[10px] text-muted-foreground mt-0.5">{prod.unit || 'كيلو'}</p>
+                      <p className="text-[10px] text-muted-foreground mt-0.5">{prod.unit || 'piece'}</p>
                     </div>
                   </div>
                   <span className="font-black text-foreground">{prod.price?.toFixed(2)} EGP</span>
                 </div>
               ))
             ) : (
-              <p className="py-4 text-center text-xs text-muted-foreground">لا توجد أصناف مضافة حديثاً</p>
+              <p className="py-4 text-center text-xs text-muted-foreground">No recently added products</p>
             )}
           </div>
         </Card>

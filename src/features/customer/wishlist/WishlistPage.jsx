@@ -15,24 +15,24 @@ export function WishlistPage() {
   const { data: wishlistItems = [], isLoading, isError, refetch } = useWishlist();
 
   return (
-    <div className="space-y-6 py-6 animate-fade-in dir-rtl text-start">
+    <div className="space-y-6 py-6 animate-fade-in text-start">
       <div className="border-b border-border/60 pb-4">
-        <h1 className="text-2xl font-black text-foreground">المنتجات المفضلة</h1>
+        <h1 className="text-2xl font-black text-foreground">Saved Items</h1>
         <p className="text-xs text-muted-foreground mt-1 font-medium">
-          الخضروات والفواكه التي قمت بحفظها لشرائها لاحقاً
+          Garments and outfits you have saved for later
         </p>
       </div>
 
       {!isAuthenticated ? (
         <EmptyState
-          title="يرجى تسجيل الدخول لعرض المفضلة"
-          description="قم بتسجيل الدخول إلى حسابك لتتمكن من حفظ خضرواتك وفواكهك المفضلة ومزامنتها عبر جميع أجهزتك."
+          title="Please log in to view your wishlist"
+          description="Log in to your account to save your favorite garments and sync them across all devices."
           icon={Heart}
           action={
             <Link to={ROUTE_PATHS.AUTH.LOGIN}>
               <Button className="mt-4 rounded-xl font-bold bg-[#155a29] hover:bg-[#0e3d1b] text-white gap-2">
                 <LogIn className="w-4 h-4" />
-                <span>تسجيل الدخول الآن</span>
+                <span>Log In Now</span>
               </Button>
             </Link>
           }
@@ -41,7 +41,7 @@ export function WishlistPage() {
         <div
           className="grid grid-cols-2 md:grid-cols-4 gap-6"
           role="status"
-          aria-label="جاري تحميل المفضلة"
+          aria-label="Loading wishlist"
         >
           {[...Array(4)].map((_, index) => (
             <ProductCardSkeleton key={index} />
@@ -49,19 +49,19 @@ export function WishlistPage() {
         </div>
       ) : isError ? (
         <ErrorState
-          title="تعذر تحميل المفضلة"
-          message="حدث خطأ أثناء جلب قائمة المفضلة من الخادم."
+          title="Unable to load wishlist"
+          message="An error occurred while fetching your wishlist from the server."
           onRetry={refetch}
         />
       ) : wishlistItems.length === 0 ? (
         <EmptyState
-          title="قائمتك المفضلة فارغة"
-          description="تصفح المتجر وأضف خضرواتك وفواكهك المفضلة بالنقر على أيقونة القلب."
+          title="Your wishlist is empty"
+          description="Browse the catalog and save your favorite clothing pieces by clicking the heart icon."
           icon={Heart}
           action={
             <Link to={ROUTE_PATHS.PRODUCTS}>
               <Button className="mt-4 rounded-xl font-bold bg-[#155a29] hover:bg-[#0e3d1b] text-white">
-                تصفح المنتجات
+                Browse Products
               </Button>
             </Link>
           }

@@ -1,8 +1,8 @@
 import { PackageOpen } from 'lucide-react';
 
 export function EmptyState({
-  title = 'لا توجد بيانات',
-  description = 'لم نجد أي عناصر لعرضها في الوقت الحالي.',
+  title = 'No Data Found',
+  description = 'No items found to display at this time.',
   action,
   icon: Icon = PackageOpen,
 }) {

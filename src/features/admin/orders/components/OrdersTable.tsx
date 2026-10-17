@@ -23,27 +23,27 @@ const STATUS_CONFIG: Record<
   { label: string; color: string; icon: React.ComponentType<{ className?: string }> }
 > = {
   pending: {
-    label: 'قيد الانتظار',
+    label: 'Pending',
     color: 'bg-amber-50 text-amber-700 border-amber-200',
     icon: Clock,
   },
   preparing: {
-    label: 'جاري التجهيز',
+    label: 'Processing',
     color: 'bg-indigo-50 text-indigo-700 border-indigo-200',
     icon: Package,
   },
   out_for_delivery: {
-    label: 'خارج للتوصيل',
+    label: 'Out for Delivery',
     color: 'bg-cyan-50 text-cyan-700 border-cyan-200',
     icon: Truck,
   },
   completed: {
-    label: 'مكتمل',
+    label: 'Completed',
     color: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     icon: CheckCircle,
   },
   cancelled: {
-    label: 'ملغى',
+    label: 'Cancelled',
     color: 'bg-rose-50 text-rose-700 border-rose-200',
     icon: XCircle,
   },
@@ -86,21 +86,21 @@ function checkOverdue(order: Order): { isOverdue: boolean; daysAgo: number } {
  */
 export const OrdersTable: React.FC<OrdersTableProps> = ({ orders, onOpenDetails }) => {
   return (
-    <div className="max-w-full overflow-x-auto overscroll-x-contain" dir="rtl">
+    <div className="max-w-full overflow-x-auto overscroll-x-contain" dir="ltr">
       <table className="w-full min-w-[1000px] text-sm text-right text-muted-foreground">
-        <thead className="bg-[#F8FAF6] text-[11px] font-bold uppercase tracking-wider text-[#4A5E3D] border-b border-[#E2E6DC]">
+        <thead className="bg-secondary/40 text-[11px] font-bold uppercase tracking-wider text-muted-foreground border-b border-border/60">
           <tr>
-            <th className="px-4 py-3.5">رقم الطلب</th>
-            <th className="px-4 py-3.5">العميل + الهاتف</th>
-            <th className="px-4 py-3.5">العنوان</th>
-            <th className="px-4 py-3.5">التاريخ</th>
-            <th className="px-4 py-3.5">المنتجات</th>
-            <th className="px-4 py-3.5">الإجمالي</th>
-            <th className="px-4 py-3.5">حالة الطلب</th>
-            <th className="px-4 py-3.5 text-center">الإجراءات</th>
+            <th className="px-4 py-3.5">Order ID</th>
+            <th className="px-4 py-3.5">Customer & Phone</th>
+            <th className="px-4 py-3.5">Address</th>
+            <th className="px-4 py-3.5">Date</th>
+            <th className="px-4 py-3.5">Products</th>
+            <th className="px-4 py-3.5">Total</th>
+            <th className="px-4 py-3.5">Status</th>
+            <th className="px-4 py-3.5 text-center">Actions</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#E2E6DC] bg-white">
+        <tbody className="divide-y divide-border/60 bg-card">
           {orders.map((order) => {
             const rawId = order._id || order.id || '';
             const orderNumber = rawId ? `#${rawId.slice(-6).toUpperCase()}` : '—';
@@ -110,15 +110,13 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders, onOpenDetails 
             const finalTotal = order.finalTotal || order.totalOrderPrice || 0;
             const productCount = order.cartItems?.length || 0;
             const { isOverdue, daysAgo } = checkOverdue(order);
-            const overdueLabel = `الطلب متأخر — منذ ${daysAgo} ${
-              daysAgo === 1 ? 'يوم' : daysAgo === 2 ? 'يومين' : daysAgo <= 10 ? 'أيام' : 'يوم'
-            }`;
+            const overdueLabel = `Order delayed — ${daysAgo} ${daysAgo === 1 ? 'day' : 'days'} ago`;
 
             return (
               <tr
                 key={rawId}
-                className={`hover:bg-[#F9FAF8] transition-colors ${
-                  isOverdue ? 'border-r-4 border-r-amber-500 bg-amber-50/15' : ''
+                className={`hover:bg-secondary/40 transition-colors ${
+                  isOverdue ? 'border-r-4 border-r-amber-500 bg-amber-50/15 dark:bg-amber-950/20' : ''
                 }`}
               >
                 {/* Order Number */}
@@ -129,10 +127,10 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders, onOpenDetails 
                 {/* Combined Customer + Phone */}
                 <td className="px-4 py-3.5">
                   <div className="min-w-0">
-                    <p className="font-extrabold text-sm text-[#1A1F16] truncate">
-                      {order.customerName || 'عميل'}
+                    <p className="font-extrabold text-sm text-foreground truncate">
+                      {order.customerName || 'Customer'}
                     </p>
-                    <p className="text-xs text-[#6B7464] font-medium mt-0.5" dir="ltr">
+                    <p className="text-xs text-muted-foreground font-medium mt-0.5" dir="ltr">
                       {order.phone || '—'}
                     </p>
                   </div>
@@ -152,7 +150,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders, onOpenDetails 
 
                 {/* Product Items Count */}
                 <td className="px-4 py-3.5 font-bold text-xs whitespace-nowrap">
-                  {productCount} {productCount > 10 ? 'أصناف' : 'صنف'}
+                  {productCount} {productCount === 1 ? 'item' : 'items'}
                 </td>
 
                 {/* Total */}
@@ -180,7 +178,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders, onOpenDetails 
                           className="w-3 h-3 text-amber-600 shrink-0"
                           aria-hidden="true"
                         />
-                        <span>متأخر ({daysAgo}ي)</span>
+                        <span>Overdue ({daysAgo}d)</span>
                       </span>
                     )}
                   </div>
@@ -192,10 +190,10 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders, onOpenDetails 
                     type="button"
                     onClick={() => onOpenDetails(order)}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary/10 hover:bg-primary text-primary hover:text-white text-xs font-extrabold transition-all cursor-pointer"
-                    title="عرض وإدارة تفاصيل الطلب"
+                    title="View and manage order details"
                   >
                     <ClipboardCheck aria-hidden="true" className="w-3.5 h-3.5" />
-                    <span>إدارة الطلب</span>
+                    <span>Manage Order</span>
                   </button>
                 </td>
               </tr>

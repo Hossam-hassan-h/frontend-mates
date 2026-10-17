@@ -52,7 +52,7 @@ export const AdminOrdersPage: React.FC = () => {
   // Trigger Sonner toast when query fails
   useEffect(() => {
     if (isError && error) {
-      toast.error('تعذر تحميل بيانات الطلبات من الخادم');
+      toast.error('Failed to load orders from server');
     }
   }, [isError, error]);
 
@@ -97,28 +97,28 @@ export const AdminOrdersPage: React.FC = () => {
         id: orderId,
         status: newStatus,
       });
-      toast.success('تم تحديث حالة الطلب بنجاح');
+      toast.success('Order status updated successfully');
       setSelectedOrder((prev) =>
         prev ? { ...prev, orderStatus: newStatus } : null
       );
     } catch {
-      toast.error('فشل تحديث حالة الطلب، يرجى المحاولة مرة أخرى');
+      toast.error('Failed to update order status, please try again');
     }
   };
 
   return (
-    <div className="w-full min-w-0 max-w-full space-y-4 font-['Cairo'] dir-rtl text-start" dir="rtl">
+    <div className="w-full min-w-0 max-w-full space-y-4 font-sans text-start" dir="ltr">
       {/* Header & Breadcrumb */}
       <div className="flex min-w-0 items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-black text-[#1A1F16] sm:text-2xl">إدارة الطلبات</h1>
+          <h1 className="text-xl font-black text-[#1A1F16] sm:text-2xl">Orders Management</h1>
           <p className="text-xs text-[#6B7464] mt-0.5">
-            متابعة طلبات العملاء وتحديث حالات التوصيل بالوقت الفعلي
+            Real-time order tracking and delivery status updates
           </p>
         </div>
         <div className="hidden text-xs font-semibold text-[#6B7464] sm:block">
-          سوق قاسم <span className="mx-1">&gt;</span>{' '}
-          <span className="text-[#1A1F16]">إدارة الطلبات</span>
+          Mates Store <span className="mx-1">&gt;</span>{' '}
+          <span className="text-[#1A1F16]">Orders Management</span>
         </div>
       </div>
 
@@ -157,17 +157,17 @@ export const AdminOrdersPage: React.FC = () => {
         </Card>
       ) : isError ? (
         <ErrorState
-          title="تعذر تحميل الطلبات"
-          message="حدث خطأ أثناء جلب الطلبات من الخادم، يرجى المحاولة مرة أخرى."
+          title="Failed to load orders"
+          message="An error occurred while fetching orders from server. Please try again."
           onRetry={() => refetch()}
         />
       ) : orders.length === 0 ? (
         <EmptyState
-          title={hasActiveFilters ? 'لا توجد طلبات تطابق الفلاتر المحددة' : 'لا توجد طلبات شراء'}
+          title={hasActiveFilters ? 'No orders match selected filters' : 'No orders found'}
           description={
             hasActiveFilters
-              ? 'لم يتم العثور على أي طلبات تطابق معايير البحث والفلترة المختارة.'
-              : 'لم يتلقى متجر قاسم أي طلبات شراء حتى الآن.'
+              ? 'No orders matched your selected search and filter criteria.'
+              : 'Mates Store has not received any orders yet.'
           }
           icon={ShoppingBag}
           action={
@@ -178,7 +178,7 @@ export const AdminOrdersPage: React.FC = () => {
                 onClick={resetFilters}
                 className="mt-2 rounded-xl text-xs font-bold text-primary cursor-pointer"
               >
-                مسح الفلاتر
+                Clear Filters
               </Button>
             ) : undefined
           }
@@ -197,7 +197,7 @@ export const AdminOrdersPage: React.FC = () => {
               setPage(page);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            itemLabel="طلب"
+            itemLabel="order"
           />
         </Card>
       )}
@@ -207,10 +207,10 @@ export const AdminOrdersPage: React.FC = () => {
         const orderId = selectedOrder._id || selectedOrder.id || '';
         const orderNumber = orderId ? `#${orderId.slice(-6).toUpperCase()}` : '—';
         const steps: Array<{ key: OrderStatus; label: string }> = [
-          { key: 'pending', label: 'قيد الانتظار' },
-          { key: 'preparing', label: 'جاري التجهيز' },
-          { key: 'out_for_delivery', label: 'خارج للتوصيل' },
-          { key: 'completed', label: 'مكتمل' },
+          { key: 'pending', label: 'Pending' },
+          { key: 'preparing', label: 'Processing' },
+          { key: 'out_for_delivery', label: 'Out for Delivery' },
+          { key: 'completed', label: 'Completed' },
         ];
         const currentStatus = selectedOrder.orderStatus;
         const isCancelled = currentStatus === 'cancelled';
@@ -235,21 +235,21 @@ export const AdminOrdersPage: React.FC = () => {
             aria-modal="true"
           >
             <div
-              className="relative w-full max-w-3xl bg-white shadow-xl rounded-3xl border border-border/50 text-[#1A1F16] my-8 flex flex-col overflow-hidden"
+              className="relative w-full max-w-3xl bg-card shadow-xl rounded-3xl border border-border/80 text-foreground my-8 flex flex-col overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border/40 px-4 py-3.5 sm:px-6 sm:py-4 bg-white">
+              <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border/40 px-4 py-3.5 sm:px-6 sm:py-4 bg-card">
                 <h2 className="flex min-w-0 items-center gap-2 text-sm font-black sm:text-lg">
                   <ShoppingBag className="h-5 w-5 shrink-0 text-primary" />
-                  <span className="truncate">تفاصيل الطلب {orderNumber}</span>
+                  <span className="truncate">Order Details #{orderNumber}</span>
                 </h2>
                 <button
                   type="button"
                   onClick={handleCloseDetails}
                   className="text-xs font-bold text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
-                  إغلاق
+                  Close
                 </button>
               </div>
 
@@ -259,7 +259,7 @@ export const AdminOrdersPage: React.FC = () => {
                 {!isCancelled ? (
                   <div className="space-y-4 overflow-hidden rounded-2xl border border-border/40 bg-secondary/10 p-3 sm:p-5">
                     <h4 className="text-xs font-bold text-muted-foreground text-start">
-                      مسار تقدّم الطلب بالوقت الفعلي
+                      Real-time Order Progress
                     </h4>
                     <div className="overflow-x-auto pb-2">
                       <div className="relative flex min-w-[480px] items-center justify-between px-2">
@@ -302,7 +302,7 @@ export const AdminOrdersPage: React.FC = () => {
                 ) : (
                   <div className="bg-rose-50 text-rose-700 p-4 rounded-2xl border border-rose-200 text-xs font-bold flex items-center gap-2">
                     <XCircle className="w-5 h-5" />
-                    <span>لقد تم إلغاء هذا الطلب من قبل الإدارة.</span>
+                    <span>This order has been cancelled by administration.</span>
                   </div>
                 )}
 
@@ -311,20 +311,20 @@ export const AdminOrdersPage: React.FC = () => {
                   {/* Customer Shipping Info */}
                   <div className="space-y-4 rounded-2xl border border-border/40 bg-secondary/10 p-4 sm:p-5 text-start">
                     <h3 className="font-extrabold text-sm border-b border-border/40 pb-2 text-[#1A1F16]">
-                      معلومات الشحن والاتصال
+                      Shipping & Contact Details
                     </h3>
 
                     <div className="space-y-3 text-xs text-muted-foreground">
                       <div className="flex min-w-0 items-center gap-2">
                         <User className="w-4 h-4 text-primary" />
-                        <span className="font-bold text-foreground">اسم العميل:</span>
+                        <span className="font-bold text-foreground">Customer Name:</span>
                         <span className="min-w-0 break-words text-foreground font-semibold">
                           {selectedOrder.customerName}
                         </span>
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
                         <Phone className="w-4 h-4 text-primary" />
-                        <span className="font-bold text-foreground">رقم الهاتف:</span>
+                        <span className="font-bold text-foreground">Phone Number:</span>
                         <span className="text-foreground font-semibold" dir="ltr">
                           {selectedOrder.phone}
                         </span>
@@ -332,7 +332,7 @@ export const AdminOrdersPage: React.FC = () => {
                       <div className="flex items-start gap-2">
                         <MapPin className="w-4 h-4 text-primary mt-0.5" />
                         <div>
-                          <span className="font-bold text-foreground block">العنوان بالتفصيل:</span>
+                          <span className="font-bold text-foreground block">Full Address:</span>
                           <span className="text-foreground mt-0.5 block leading-relaxed">
                             {selectedOrder.address}
                           </span>
@@ -340,7 +340,7 @@ export const AdminOrdersPage: React.FC = () => {
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
                         <Calendar className="w-4 h-4 text-primary" />
-                        <span className="font-bold text-foreground">تاريخ الطلب:</span>
+                        <span className="font-bold text-foreground">Order Date:</span>
                         <span className="text-foreground">
                           {selectedOrder.createdAt
                             ? new Date(selectedOrder.createdAt).toLocaleString('ar-EG')
@@ -354,14 +354,14 @@ export const AdminOrdersPage: React.FC = () => {
                   <div className="flex flex-col justify-between space-y-4 rounded-2xl border border-border/40 bg-secondary/10 p-4 sm:p-5 text-start">
                     <div className="space-y-3">
                       <h3 className="font-extrabold text-sm border-b border-border/40 pb-2 text-[#1A1F16]">
-                        إدارة حالة الطلب
+                        Manage Order Status
                       </h3>
                       <div className="space-y-1.5">
                         <label
                           htmlFor="order-status-select"
                           className="text-xs font-bold text-muted-foreground block"
                         >
-                          تعديل حالة التوصيل:
+                          Update Delivery Status:
                         </label>
                         <select
                           id="order-status-select"
@@ -369,11 +369,11 @@ export const AdminOrdersPage: React.FC = () => {
                           onChange={(e) => setNewStatus(e.target.value as OrderStatus)}
                           className="w-full h-10 px-3 rounded-xl border border-input bg-card text-xs font-bold focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-[#1A1F16]"
                         >
-                          <option value="pending">قيد الانتظار</option>
-                          <option value="preparing">جاري التجهيز</option>
-                          <option value="out_for_delivery">خارج للتوصيل</option>
-                          <option value="completed">مكتمل</option>
-                          <option value="cancelled">ملغى</option>
+                          <option value="pending">Pending</option>
+                          <option value="preparing">Processing</option>
+                          <option value="out_for_delivery">Out for Delivery</option>
+                          <option value="completed">Completed</option>
+                          <option value="cancelled">Cancelled</option>
                         </select>
                       </div>
                     </div>
@@ -387,7 +387,7 @@ export const AdminOrdersPage: React.FC = () => {
                       }
                       className="w-full mt-4 h-10 rounded-xl bg-primary hover:bg-primary/95 text-white text-xs font-extrabold transition-colors disabled:opacity-50 cursor-pointer"
                     >
-                      {updateStatusMutation.isPending ? 'جاري التعديل...' : 'حفظ التعديلات'}
+                      {updateStatusMutation.isPending ? 'Updating...' : 'Save Changes'}
                     </button>
                   </div>
                 </div>
@@ -395,19 +395,19 @@ export const AdminOrdersPage: React.FC = () => {
                 {/* Ordered Items List */}
                 <div className="space-y-3 text-start">
                   <h3 className="font-extrabold text-sm border-b border-border/40 pb-2 text-[#1A1F16]">
-                    المنتجات المطلوبة
+                    Ordered Products
                   </h3>
 
                   <div className="border border-border/60 rounded-2xl overflow-hidden divide-y divide-border/60">
                     {selectedOrder.cartItems?.map((item) => {
                       const prod = item.product || {};
-                      const title = getText(prod.title || prod.name) || 'منتج';
+                      const title = getText(prod.title || prod.name) || 'Product';
                       const img = prod.imageCover || prod.image;
 
                       return (
                         <div
                           key={item._id}
-                          className="flex min-w-0 items-center justify-between gap-2 p-3 text-xs sm:p-3.5 bg-white"
+                          className="flex min-w-0 items-center justify-between gap-2 p-3 text-xs sm:p-3.5 bg-card"
                         >
                           <div className="flex min-w-0 items-center gap-2 sm:gap-3">
                             {img ? (
@@ -424,7 +424,7 @@ export const AdminOrdersPage: React.FC = () => {
                             <div className="min-w-0">
                               <p className="truncate font-bold text-foreground">{title}</p>
                               <p className="text-[10px] text-muted-foreground mt-0.5">
-                                سعر القطعة: {formatEGP(item.price || 0)}
+                                Unit Price: {formatEGP(item.price || 0)}
                               </p>
                             </div>
                           </div>
@@ -444,16 +444,16 @@ export const AdminOrdersPage: React.FC = () => {
               </div>
 
               {/* Invoice Calculations */}
-              <div className="flex shrink-0 flex-col items-end space-y-1.5 border-t border-border/40 px-4 py-3 sm:px-6 sm:py-4 text-xs bg-[#F8FAF6]">
+              <div className="flex shrink-0 flex-col items-end space-y-1.5 border-t border-border/40 px-4 py-3 sm:px-6 sm:py-4 text-xs bg-secondary/30">
                 <div className="flex w-full justify-between gap-3 sm:w-64">
-                  <span className="text-muted-foreground font-bold">المجموع الفرعي:</span>
+                  <span className="text-muted-foreground font-bold">Subtotal:</span>
                   <span className="font-bold text-foreground">
                     {formatEGP(Math.max(0, subTotal))}
                   </span>
                 </div>
                 {Boolean(selectedOrder.taxPrice && selectedOrder.taxPrice > 0) && (
                   <div className="flex w-full justify-between gap-3 sm:w-64">
-                    <span className="text-muted-foreground font-bold">الضريبة:</span>
+                    <span className="text-muted-foreground font-bold">Tax:</span>
                     <span className="text-foreground">
                       {formatEGP(selectedOrder.taxPrice)}
                     </span>
@@ -463,7 +463,7 @@ export const AdminOrdersPage: React.FC = () => {
                   selectedOrder.shippingPrice && selectedOrder.shippingPrice > 0
                 )}
                 <div className="flex w-full justify-between gap-3 sm:w-64">
-                  <span className="text-muted-foreground font-bold">تكلفة التوصيل:</span>
+                  <span className="text-muted-foreground font-bold">Shipping Cost:</span>
                   <span className="text-foreground">
                     {formatEGP(selectedOrder.shippingPrice || 0)}
                   </span>
@@ -473,21 +473,21 @@ export const AdminOrdersPage: React.FC = () => {
                 ) && (
                   <div className="flex w-full justify-between gap-3 text-rose-600 font-extrabold sm:w-64">
                     <span>
-                      خصم نقاط الولاء ({selectedOrder.redeemedPoints} نقطة):
+                      Loyalty Points Discount ({selectedOrder.redeemedPoints} pts):
                     </span>
                     <span>-{formatEGP(selectedOrder.loyaltyDiscount)}</span>
                   </div>
                 )}
                 <div className="flex w-full justify-between gap-3 border-t border-border/40 pt-2 text-sm font-black text-foreground sm:w-64">
-                  <span>الإجمالي النهائي:</span>
+                  <span>Final Total:</span>
                   <span>{formatEGP(finalTotal)}</span>
                 </div>
                 {Boolean(
                   selectedOrder.earnedPoints && selectedOrder.earnedPoints > 0
                 ) && (
                   <div className="flex w-full justify-between gap-3 text-[10px] text-primary font-bold sm:w-64">
-                    <span>نقاط الولاء المكتسبة:</span>
-                    <span>+{selectedOrder.earnedPoints} نقطة</span>
+                    <span>Earned Loyalty Points:</span>
+                    <span>+{selectedOrder.earnedPoints} pts</span>
                   </div>
                 )}
               </div>

@@ -23,61 +23,61 @@ interface StatusCardConfig {
 const STATUS_CARDS: StatusCardConfig[] = [
   {
     key: 'all',
-    label: 'الكل',
+    label: 'All',
     colorClasses: {
-      idle: 'bg-white border-[#E2E6DC] text-[#4A5E3D] hover:bg-[#F8FAF6] hover:border-[#1D6B36]/30',
+      idle: 'bg-card border-border/80 text-foreground hover:bg-secondary/40 hover:border-primary/30',
       active: 'bg-[#1D6B36] border-[#1D6B36] text-white shadow-xs font-black ring-2 ring-[#1D6B36]/30',
-      badgeIdle: 'bg-[#F0F3EE] text-[#1D6B36]',
+      badgeIdle: 'bg-secondary text-primary',
       badgeActive: 'bg-white/20 text-white',
     },
   },
   {
     key: 'pending',
-    label: 'قيد الانتظار',
+    label: 'Pending',
     colorClasses: {
-      idle: 'bg-white border-amber-200/80 text-amber-800 hover:bg-amber-50/60',
+      idle: 'bg-card border-amber-200/80 dark:border-amber-900/50 text-amber-800 dark:text-amber-300 hover:bg-amber-50/60 dark:hover:bg-amber-950/30',
       active: 'bg-amber-600 border-amber-600 text-white shadow-xs font-black ring-2 ring-amber-500/30',
-      badgeIdle: 'bg-amber-100 text-amber-800',
+      badgeIdle: 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300',
       badgeActive: 'bg-white/20 text-white',
     },
   },
   {
     key: 'preparing',
-    label: 'جاري التجهيز',
+    label: 'Processing',
     colorClasses: {
-      idle: 'bg-white border-indigo-200/80 text-indigo-800 hover:bg-indigo-50/60',
+      idle: 'bg-card border-indigo-200/80 dark:border-indigo-900/50 text-indigo-800 dark:text-indigo-300 hover:bg-indigo-50/60 dark:hover:bg-indigo-950/30',
       active: 'bg-indigo-600 border-indigo-600 text-white shadow-xs font-black ring-2 ring-indigo-500/30',
-      badgeIdle: 'bg-indigo-100 text-indigo-800',
+      badgeIdle: 'bg-indigo-100 dark:bg-indigo-950/60 text-indigo-800 dark:text-indigo-300',
       badgeActive: 'bg-white/20 text-white',
     },
   },
   {
     key: 'out_for_delivery',
-    label: 'خارج للتوصيل',
+    label: 'Out for Delivery',
     colorClasses: {
-      idle: 'bg-white border-cyan-200/80 text-cyan-800 hover:bg-cyan-50/60',
+      idle: 'bg-card border-cyan-200/80 dark:border-cyan-900/50 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-50/60 dark:hover:bg-cyan-950/30',
       active: 'bg-cyan-600 border-cyan-600 text-white shadow-xs font-black ring-2 ring-cyan-500/30',
-      badgeIdle: 'bg-cyan-100 text-cyan-800',
+      badgeIdle: 'bg-cyan-100 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300',
       badgeActive: 'bg-white/20 text-white',
     },
   },
   {
     key: 'completed',
-    label: 'مكتمل',
+    label: 'Completed',
     colorClasses: {
-      idle: 'bg-white border-emerald-200/80 text-emerald-800 hover:bg-emerald-50/60',
+      idle: 'bg-card border-emerald-200/80 dark:border-emerald-900/50 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-50/60 dark:hover:bg-emerald-950/30',
       active: 'bg-emerald-600 border-emerald-600 text-white shadow-xs font-black ring-2 ring-emerald-500/30',
-      badgeIdle: 'bg-emerald-100 text-emerald-800',
+      badgeIdle: 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300',
       badgeActive: 'bg-white/20 text-white',
     },
   },
   {
     key: 'cancelled',
-    label: 'ملغى',
+    label: 'Cancelled',
     colorClasses: {
-      idle: 'bg-white border-rose-200/80 text-rose-800 hover:bg-rose-50/60',
+      idle: 'bg-card border-rose-200/80 dark:border-rose-900/50 text-rose-800 dark:text-rose-300 hover:bg-rose-50/60 dark:hover:bg-rose-950/30',
       active: 'bg-rose-600 border-rose-600 text-white shadow-xs font-black ring-2 ring-rose-500/30',
-      badgeIdle: 'bg-rose-100 text-rose-800',
+      badgeIdle: 'bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300',
       badgeActive: 'bg-white/20 text-white',
     },
   },
@@ -95,9 +95,9 @@ export const OrderStatusSummary: React.FC<OrderStatusSummaryProps> = ({
   return (
     <div
       className="flex items-center gap-2 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-muted"
-      dir="rtl"
+      dir="ltr"
       role="group"
-      aria-label="تصفية الطلبات حسب الحالة"
+      aria-label="Filter orders by status"
     >
       {STATUS_CARDS.map((card) => {
         const isActive = currentStatus === card.key;

@@ -25,7 +25,7 @@ export function SeoManager() {
 
     if (isPrivate) {
       return {
-        title: `${storeName} | صفحة خاصة`,
+        title: `${storeName} | Special Page`,
         description,
         canonicalPath: normalizedPath,
         robots: 'noindex, nofollow, noarchive',
@@ -37,11 +37,11 @@ export function SeoManager() {
       const sameAs = [settings?.facebook, settings?.instagram].filter(Boolean);
 
       return {
-        title: `${storeName} | خضروات وفواكه طازجة`,
+        title: `${storeName} | Minimalist Clothing & Outfits`,
         description,
         canonicalPath: '/',
         image: storeLogo,
-        imageAlt: `شعار ${storeName}`,
+        imageAlt: `${storeName} Logo`,
         siteName: storeName,
         structuredData: [
           {
@@ -74,8 +74,8 @@ export function SeoManager() {
 
     if (normalizedPath === ROUTE_PATHS.PRODUCTS) {
       return {
-        title: `المنتجات الطازجة | ${storeName}`,
-        description: `تصفح منتجات ${storeName} من الخضروات والفواكه الطازجة والعروض المتاحة.`,
+        title: `Products | ${storeName}`,
+        description: `Explore ${storeName} clothing collections, matching sets, and latest arrivals.`,
         canonicalPath: ROUTE_PATHS.PRODUCTS,
         image: storeLogo,
         siteName: storeName,
@@ -83,7 +83,7 @@ export function SeoManager() {
         structuredData: {
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
-          name: `منتجات ${storeName}`,
+          name: `${storeName} Products`,
           description,
           url: `${siteUrl}${ROUTE_PATHS.PRODUCTS}`,
           inLanguage: 'ar',
@@ -93,7 +93,7 @@ export function SeoManager() {
 
     if (/^\/products\/[^/]+$/.test(normalizedPath)) {
       return {
-        title: `تفاصيل المنتج | ${storeName}`,
+        title: `Product Details | ${storeName}`,
         description,
         canonicalPath: normalizedPath,
         image: storeLogo,
@@ -103,7 +103,7 @@ export function SeoManager() {
     }
 
     return {
-      title: `الصفحة غير موجودة | ${storeName}`,
+      title: `Page Not Found | ${storeName}`,
       description,
       canonicalPath: normalizedPath,
       image: storeLogo,

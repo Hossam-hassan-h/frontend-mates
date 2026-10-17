@@ -59,7 +59,7 @@ export function ProfilePage() {
       return response.data?.data;
     },
     onSuccess: () => {
-      toast.success('تمت إضافة العنوان الجديد بنجاح');
+      toast.success('New address added successfully');
       queryClient.invalidateQueries({ queryKey: ['myAddressesList'] });
       // Reset form
       setAlias('');
@@ -70,7 +70,7 @@ export function ProfilePage() {
       setShowAddressForm(false);
     },
     onError: (err) => {
-      toast.error(err.response?.data?.message || 'فشل إضافة العنوان');
+      toast.error(err.response?.data?.message || 'Failed to add address');
     },
   });
 
@@ -81,11 +81,11 @@ export function ProfilePage() {
       return response.data?.data;
     },
     onSuccess: () => {
-      toast.success('تم حذف العنوان بنجاح');
+      toast.success('Address deleted successfully');
       queryClient.invalidateQueries({ queryKey: ['myAddressesList'] });
     },
     onError: (err) => {
-      toast.error(err.response?.data?.message || 'فشل حذف العنوان');
+      toast.error(err.response?.data?.message || 'Failed to delete address');
     },
   });
 
@@ -97,7 +97,7 @@ export function ProfilePage() {
   const handleAddAddress = (e) => {
     e.preventDefault();
     if (!alias.trim() || !details.trim() || !phone.trim() || !city.trim()) {
-      toast.warning('يرجى ملء جميع الحقول المطلوبة');
+      toast.warning('Please fill in all required fields');
       return;
     }
     addAddressMutation.mutate({
@@ -110,14 +110,14 @@ export function ProfilePage() {
   };
 
   return (
-    <div className="space-y-8 py-6 animate-fade-in dir-rtl text-start">
+    <div className="space-y-8 py-6 animate-fade-in text-start">
       {/* Header */}
       <div className="border-b border-border/60 pb-4">
-        <h1 className="text-2xl font-black text-foreground">حسابي الشخصي</h1>
+        <h1 className="text-2xl font-black text-foreground">My Account</h1>
         <p className="text-xs text-muted-foreground mt-1 font-medium">
           {user?.role === 'admin' 
-            ? 'إدارة عناوين التوصيل، وبيانات الملف الشخصي' 
-            : 'متابعة طلباتك، وإدارة عناوين التوصيل، ونقاط الولاء'}
+            ? 'Manage delivery addresses and profile details' 
+            : 'Track orders, manage delivery addresses, and view loyalty points'}
         </p>
       </div>
 
@@ -132,7 +132,7 @@ export function ProfilePage() {
           }`}
         >
           <User className="w-4 h-4" />
-          <span>{user?.role === 'admin' ? 'الملف الشخصي' : 'الملف الشخصي والنقاط'}</span>
+          <span>{user?.role === 'admin' ? 'Profile' : 'Profile & Loyalty'}</span>
         </button>
         <button
           onClick={() => setActiveTab('addresses')}
@@ -143,7 +143,7 @@ export function ProfilePage() {
           }`}
         >
           <MapPin className="w-4 h-4" />
-          <span>إدارة العناوين</span>
+          <span>Addresses</span>
         </button>
         {user?.role !== 'admin' && (
           <button
@@ -155,7 +155,7 @@ export function ProfilePage() {
             }`}
           >
             <ClipboardList className="w-4 h-4" />
-            <span>تاريخ طلباتي</span>
+            <span>Order History</span>
           </button>
         )}
       </div>
@@ -167,7 +167,7 @@ export function ProfilePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* User Info Details */}
             <div className={`${user?.role === 'admin' ? 'md:col-span-3' : 'md:col-span-2'} bg-card border border-border/60 rounded-3xl p-6 shadow-sm space-y-4`}>
-              <h3 className="text-sm font-extrabold text-foreground border-b border-border/60 pb-3">بيانات الحساب الشخصي</h3>
+              <h3 className="text-sm font-extrabold text-foreground border-b border-border/60 pb-3">Account Details</h3>
               {isProfileLoading ? (
                 <div className="space-y-3">
                   <div className="h-4 bg-secondary/50 rounded animate-pulse w-3/4" />
@@ -178,14 +178,14 @@ export function ProfilePage() {
                   <div className="flex items-center gap-3">
                     <User className="w-5 h-5 text-muted-foreground" />
                     <div>
-                      <span className="text-[10px] text-muted-foreground font-semibold block">الاسم بالكامل:</span>
+                      <span className="text-[10px] text-muted-foreground font-semibold block">Full Name:</span>
                       <span className="font-extrabold text-foreground">{userProfile?.name}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <Mail className="w-5 h-5 text-muted-foreground" />
                     <div>
-                      <span className="text-[10px] text-muted-foreground font-semibold block">البريد الإلكتروني:</span>
+                      <span className="text-[10px] text-muted-foreground font-semibold block">Email Address:</span>
                       <span className="font-bold text-foreground">{userProfile?.email}</span>
                     </div>
                   </div>
@@ -193,7 +193,7 @@ export function ProfilePage() {
                     <div className="flex items-center gap-3">
                       <Phone className="w-5 h-5 text-muted-foreground" />
                       <div>
-                        <span className="text-[10px] text-muted-foreground font-semibold block">رقم الهاتف للتواصل:</span>
+                        <span className="text-[10px] text-muted-foreground font-semibold block">Phone Number:</span>
                         <span className="font-bold text-foreground text-start inline-block dir-ltr">{userProfile.phone}</span>
                       </div>
                     </div>
@@ -209,14 +209,14 @@ export function ProfilePage() {
                   <Trophy className="w-8 h-8" />
                 </div>
                 <div className="space-y-2">
-                  <span className="text-amber-800 dark:text-amber-300 text-xs font-black block uppercase tracking-wider">نقاط الولاء المتوفرة</span>
+                  <span className="text-amber-800 dark:text-amber-300 text-xs font-black block uppercase tracking-wider">Available Loyalty Points</span>
                   <span className="text-amber-600 dark:text-amber-400 text-4xl font-black block">
                     {isProfileLoading ? '...' : userProfile?.loyaltyPoints || 0}
                   </span>
                 </div>
                 <div className="text-[11px] text-amber-800 dark:text-amber-300 font-bold leading-relaxed border-t border-amber-500/20 pt-4 w-full">
-                  <p>قيمة النقاط الحالية: {((userProfile?.loyaltyPoints || 0) * 0.20).toFixed(2)} EGP خصم</p>
-                  <p className="text-[10px] font-medium text-amber-600/70 mt-1">تستبدل النقاط تلقائياً في صفحة الدفع</p>
+                  <p>Current points value: {((userProfile?.loyaltyPoints || 0) * 0.20).toFixed(2)} EGP discount</p>
+                  <p className="text-[10px] font-medium text-amber-600/70 mt-1">Redeemable directly during checkout</p>
                 </div>
               </div>
             )}
@@ -227,64 +227,64 @@ export function ProfilePage() {
         {activeTab === 'addresses' && (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h3 className="text-sm font-extrabold text-foreground">عناويني المحفوظة</h3>
+              <h3 className="text-sm font-extrabold text-foreground">Saved Addresses</h3>
               <Button onClick={() => setShowAddressForm(!showAddressForm)} className="rounded-xl text-xs font-bold gap-1">
                 <Plus className="w-4 h-4" />
-                <span>إضافة عنوان جديد</span>
+                <span>Add New Address</span>
               </Button>
             </div>
 
             {/* Add Address Form */}
             {showAddressForm && (
               <form onSubmit={handleAddAddress} className="bg-card border border-border/60 rounded-3xl p-5 shadow-sm space-y-4 max-w-xl animate-fade-in">
-                <h4 className="text-xs font-extrabold text-foreground uppercase border-b border-border/60 pb-2">إضافة عنوان توصيل</h4>
+                <h4 className="text-xs font-extrabold text-foreground uppercase border-b border-border/60 pb-2">Add Delivery Address</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-muted-foreground">اسم مستعار (مثال: البيت، العمل):</label>
+                    <label className="text-[10px] font-bold text-muted-foreground">Address Label (e.g. Home, Office):</label>
                     <input
                       type="text"
                       required
-                      placeholder="البيت..."
+                      placeholder="Home..."
                       value={alias}
                       onChange={(e) => setAlias(e.target.value)}
                       className="w-full h-10 px-3 rounded-xl border border-input bg-card text-xs focus:outline-none focus:ring-2 focus:ring-primary/50"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-muted-foreground">المدينة / البلدة:</label>
+                    <label className="text-[10px] font-bold text-muted-foreground">City / Area:</label>
                     <input
                       type="text"
                       required
-                      placeholder="غزة، رام الله..."
+                      placeholder="City..."
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       className="w-full h-10 px-3 rounded-xl border border-input bg-card text-xs focus:outline-none focus:ring-2 focus:ring-primary/50"
                     />
                   </div>
                   <div className="space-y-1 sm:col-span-2">
-                    <label className="text-[10px] font-bold text-muted-foreground">رقم هاتف المستلم للتوصيل:</label>
+                    <label className="text-[10px] font-bold text-muted-foreground">Recipient Phone Number:</label>
                     <input
                       type="tel"
                       required
-                      placeholder="رقم الهاتف للتواصل..."
+                      placeholder="Contact phone number..."
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       className="w-full h-10 px-3 rounded-xl border border-input bg-card text-xs focus:outline-none focus:ring-2 focus:ring-primary/50"
                     />
                   </div>
                   <div className="space-y-1 sm:col-span-2">
-                    <label className="text-[10px] font-bold text-muted-foreground">العنوان بالتفصيل:</label>
+                    <label className="text-[10px] font-bold text-muted-foreground">Detailed Address:</label>
                     <input
                       type="text"
                       required
-                      placeholder="الشارع، اسم العمارة، رقم الشقة..."
+                      placeholder="Street name, building, apartment..."
                       value={details}
                       onChange={(e) => setDetails(e.target.value)}
                       className="w-full h-10 px-3 rounded-xl border border-input bg-card text-xs focus:outline-none focus:ring-2 focus:ring-primary/50"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-muted-foreground">الرمز البريدي (اختياري):</label>
+                    <label className="text-[10px] font-bold text-muted-foreground">Postal Code (Optional):</label>
                     <input
                       type="text"
                       placeholder="12345..."
@@ -296,10 +296,10 @@ export function ProfilePage() {
                 </div>
                 <div className="flex gap-3 pt-2">
                   <Button type="submit" disabled={addAddressMutation.isPending} className="rounded-xl text-xs font-bold px-5">
-                    إضافة العنوان
+                    Add Address
                   </Button>
                   <Button type="button" variant="outline" onClick={() => setShowAddressForm(false)} className="rounded-xl text-xs font-bold">
-                    إلغاء
+                    Cancel
                   </Button>
                 </div>
               </form>
@@ -312,7 +312,7 @@ export function ProfilePage() {
                 <div className="h-24 bg-secondary/50 rounded-2xl animate-pulse" />
               </div>
             ) : addresses.length === 0 ? (
-              <p className="text-xs text-muted-foreground font-semibold">ليس لديك عناوين توصيل محفوظة بعد.</p>
+              <p className="text-xs text-muted-foreground font-semibold">You have no saved delivery addresses yet.</p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {addresses.map((addr) => (
@@ -326,7 +326,7 @@ export function ProfilePage() {
                         <button
                           onClick={() => deleteAddressMutation.mutate(addr._id)}
                           className="text-muted-foreground hover:text-destructive p-1 rounded-lg hover:bg-destructive/10 transition-colors"
-                          title="حذف العنوان"
+                          title="Delete Address"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -334,8 +334,8 @@ export function ProfilePage() {
                       <p className="text-xs text-muted-foreground leading-relaxed">
                         {addr.details}, {addr.city}
                       </p>
-                      <p className="text-xs font-bold text-foreground">الهاتف: {addr.phone}</p>
-                      {addr.postalCode && <p className="text-[10px] text-muted-foreground font-medium">الرمز البريدي: {addr.postalCode}</p>}
+                      <p className="text-xs font-bold text-foreground">Phone: {addr.phone}</p>
+                      {addr.postalCode && <p className="text-[10px] text-muted-foreground font-medium">Postal Code: {addr.postalCode}</p>}
                     </div>
                   </div>
                 ))}
@@ -347,7 +347,7 @@ export function ProfilePage() {
         {/* Order History Tab */}
         {activeTab === 'orders' && user?.role !== 'admin' && (
           <div className="space-y-6">
-            <h3 className="text-sm font-extrabold text-foreground">سجل الطلبات السابقة</h3>
+            <h3 className="text-sm font-extrabold text-foreground">Order History</h3>
 
             {isOrdersLoading ? (
               <div className="space-y-4">
@@ -357,9 +357,9 @@ export function ProfilePage() {
             ) : orders.length === 0 ? (
               <div className="text-center py-10 space-y-3">
                 <ClipboardList className="w-10 h-10 mx-auto text-muted-foreground/40" />
-                <p className="text-xs text-muted-foreground font-semibold">لم تقم بإجراء أي طلبات حتى الآن.</p>
+                <p className="text-xs text-muted-foreground font-semibold">You have not placed any orders yet.</p>
                 <Link to={ROUTE_PATHS.PRODUCTS}>
-                  <Button className="rounded-xl text-xs font-bold">تسوق الخضار الطازجة الآن</Button>
+                  <Button className="rounded-xl text-xs font-bold">Shop Clothing Now</Button>
                 </Link>
               </div>
             ) : (
@@ -372,7 +372,7 @@ export function ProfilePage() {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-extrabold text-xs text-foreground bg-secondary px-2.5 py-1 rounded-xl">
-                          رقم الطلب: #{ord._id.slice(-6).toUpperCase()}
+                          Order #{ord._id.slice(-6).toUpperCase()}
                         </span>
                         <span className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
                           <Calendar className="w-3.5 h-3.5" />
@@ -381,18 +381,18 @@ export function ProfilePage() {
                       </div>
                       <div className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
                         <ShoppingBag className="w-3.5 h-3.5 text-primary" />
-                        <span>شحن إلى: {ord.customerName} - {ord.address}</span>
+                        <span>Ship to: {ord.customerName} - {ord.address}</span>
                       </div>
                       {ord.earnedPoints > 0 && (
                         <span className="text-[10px] text-emerald-600 font-extrabold block">
-                          كسبت من هذا الطلب: +{ord.earnedPoints} نقطة ولاء
+                          Earned from this order: +{ord.earnedPoints} loyalty points
                         </span>
                       )}
                     </div>
 
                     <div className="flex sm:flex-col sm:items-end justify-between items-center gap-2 shrink-0 border-t sm:border-t-0 border-border/60 pt-3 sm:pt-0">
                       <div className="space-y-0.5 sm:text-end text-start">
-                        <span className="text-[10px] text-muted-foreground font-semibold block">إجمالي السعر:</span>
+                        <span className="text-[10px] text-muted-foreground font-semibold block">Total Price:</span>
                         <span className="font-black text-primary text-sm">{ord.finalTotal?.toFixed(2) || ord.totalOrderPrice?.toFixed(2)} EGP</span>
                       </div>
                       <span
@@ -405,10 +405,10 @@ export function ProfilePage() {
                         }`}
                       >
                         {ord.orderStatus === 'completed'
-                          ? 'مكتمل'
+                          ? 'Completed'
                           : ord.orderStatus === 'cancelled'
-                          ? 'ملغي'
-                          : 'قيد المعالجة'}
+                          ? 'Cancelled'
+                          : 'Processing'}
                       </span>
                     </div>
                   </div>

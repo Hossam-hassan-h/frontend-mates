@@ -6,31 +6,31 @@ const VARIANT_STYLES = {
     iconBg: 'bg-rose-500/10 text-rose-600',
     icon: Trash2,
     confirmBtn: 'bg-rose-600 hover:bg-rose-700 shadow-rose-600/25 text-white',
-    defaultConfirmText: 'حذف',
+    defaultConfirmText: 'Delete',
   },
   warning: {
     iconBg: 'bg-amber-500/10 text-amber-600',
     icon: AlertTriangle,
     confirmBtn: 'bg-amber-600 hover:bg-amber-700 shadow-amber-600/25 text-white',
-    defaultConfirmText: 'تأكيد',
+    defaultConfirmText: 'Confirm',
   },
   archive: {
     iconBg: 'bg-indigo-500/10 text-indigo-600',
     icon: Archive,
     confirmBtn: 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/25 text-white',
-    defaultConfirmText: 'أرشفة',
+    defaultConfirmText: 'Archive',
   },
   success: {
     iconBg: 'bg-emerald-500/10 text-emerald-600',
     icon: CheckCircle,
     confirmBtn: 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/25 text-white',
-    defaultConfirmText: 'متابعة',
+    defaultConfirmText: 'Continue',
   },
   info: {
     iconBg: 'bg-blue-500/10 text-blue-600',
     icon: Info,
     confirmBtn: 'bg-blue-600 hover:bg-blue-700 shadow-blue-600/25 text-white',
-    defaultConfirmText: 'موافق',
+    defaultConfirmText: 'OK',
   },
 };
 
@@ -39,12 +39,12 @@ export function ConfirmDialog({
   open,
   variant = 'danger',
   isDestructive,
-  title = 'تأكيد الإجراء',
-  description = 'هل أنت متأكد من هذا الإجراء؟ لا يمكن التراجع عنه بعد تنفيذه.',
+  title = 'Confirm Action',
+  description = 'Are you sure you want to proceed? This action cannot be undone.',
   confirmText,
   confirmLabel,
   cancelText,
-  cancelLabel = 'إلغاء',
+  cancelLabel = 'Cancel',
   onConfirm,
   onCancel,
   onOpenChange,
@@ -55,7 +55,7 @@ export function ConfirmDialog({
   const currentVariant = VARIANT_STYLES[effectiveVariant] || VARIANT_STYLES.danger;
   const IconComponent = currentVariant.icon;
   const activeConfirmText = confirmLabel || confirmText || currentVariant.defaultConfirmText;
-  const activeCancelText = cancelLabel || cancelText || 'إلغاء';
+  const activeCancelText = cancelLabel || cancelText || 'Cancel';
 
   const handleClose = useCallback(() => {
     if (isLoading) return;
@@ -83,7 +83,7 @@ export function ConfirmDialog({
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-card w-full max-w-[420px] rounded-3xl p-6 shadow-2xl border border-border/80 space-y-5 text-start dir-rtl animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-card w-full max-w-[420px] rounded-3xl p-6 shadow-2xl border border-border/80 space-y-5 text-start animate-in fade-in zoom-in-95 duration-200">
         {/* Header Icon + Title */}
         <div className="flex items-start gap-3.5">
           <div className={`p-3 ${currentVariant.iconBg} rounded-2xl shrink-0 mt-0.5`}>
@@ -120,7 +120,7 @@ export function ConfirmDialog({
             {isLoading ? (
               <>
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                <span>جاري المعالجة...</span>
+                <span>Processing...</span>
               </>
             ) : (
               activeConfirmText

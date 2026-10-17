@@ -6,9 +6,9 @@ export function OfflineState() {
       <div className="p-3 bg-muted rounded-full text-muted-foreground">
         <WifiOff className="w-10 h-10" />
       </div>
-      <h3 className="text-lg font-semibold text-foreground">انقطع الاتصال بالإنترنت</h3>
+      <h3 className="text-lg font-semibold text-foreground">No Internet Connection</h3>
       <p className="text-sm text-muted-foreground max-w-sm">
-        يرجى التحقق من اتصالك بالشبكة وإعادة المحاولة.
+        Please check your internet connection and try again.
       </p>
     </div>
   );

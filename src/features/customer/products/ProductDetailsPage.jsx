@@ -144,16 +144,16 @@ export function ProductDetailsPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['wishlist'] });
-      toast.success(isFavorite ? 'تمت الإزالة من المفضلة' : 'تمت الإضافة للمفضلة');
+      toast.success(isFavorite ? 'Removed from wishlist' : 'Added to wishlist');
     },
     onError: (err) => {
-      toast.error(err.response?.data?.message || 'فشل تعديل المفضلة');
+      toast.error(err.response?.data?.message || 'Failed to update wishlist');
     },
   });
 
   const handleToggleFavorite = () => {
     if (!isAuthenticated) {
-      toast.error('يرجى تسجيل الدخول أولاً لإضافة المنتجات إلى المفضلة');
+      toast.error('Please log in first to add products to your wishlist');
       return;
     }
     toggleWishlistMutation.mutate();
@@ -165,11 +165,11 @@ export function ProductDetailsPage() {
   const handleAddToCart = () => {
     if (!product) return;
     if (variants.length > 0 && !activeVariant) {
-      toast.warning('يرجى تحديد مقاس ولون متوفرين');
+      toast.warning('Please select an available size and color');
       return;
     }
     if (stockAvailable < quantity) {
-      toast.warning(`الكمية المتوفرة حالياً هي ${stockAvailable} فقط`);
+      toast.warning(`Only ${stockAvailable} item(s) currently available`);
       return;
     }
 
@@ -195,7 +195,7 @@ export function ProductDetailsPage() {
   const handleReviewSubmit = (e) => {
     e.preventDefault();
     if (!reviewTitle.trim()) {
-      toast.warning('يرجى كتابة نص المراجعة');
+      toast.warning('Please write your review text');
       return;
     }
     createReviewMutation.mutate(
@@ -211,7 +211,7 @@ export function ProductDetailsPage() {
 
   if (isProductLoading) {
     return (
-      <div className="py-8 space-y-8 animate-pulse dir-rtl">
+      <div className="py-8 space-y-8 animate-pulse">
         <Skeleton className="h-6 w-32 rounded-lg" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Skeleton className="aspect-square rounded-3xl" />
@@ -229,8 +229,8 @@ export function ProductDetailsPage() {
     return (
       <div className="py-12">
         <ErrorState
-          title="لم نتمكن من العثور على المنتج"
-          description="قد يكون تم حذف المنتج أو نقل رابطه"
+          title="Product not found"
+          description="This item may have been removed or the link is invalid."
           onRetry={refetchProduct}
         />
       </div>
@@ -241,10 +241,10 @@ export function ProductDetailsPage() {
   const productDescription = getText(product.description);
 
   return (
-    <div className="space-y-12 py-6 animate-fade-in dir-rtl text-start">
+    <div className="space-y-12 py-6 animate-fade-in text-start">
       <Seo
         title={`${productName} | Mates Store`}
-        description={productDescription || 'تسوق أزياء Mates Store الأنيقة للأفراد والأزواج'}
+        description={productDescription || 'Shop premium minimalist fashion for individuals and couples at Mates Store'}
         image={galleryImages[0] || '/favicon.svg'}
         url={getSiteUrl(`/products/${id}`)}
       />
@@ -252,11 +252,11 @@ export function ProductDetailsPage() {
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
         <Link to={ROUTE_PATHS.HOME} className="hover:text-primary transition-colors">
-          الرئيسية
+          Home
         </Link>
         <span>/</span>
         <Link to={ROUTE_PATHS.PRODUCTS} className="hover:text-primary transition-colors">
-          الملابس
+          Clothing
         </Link>
         <span>/</span>
         <span className="text-foreground line-clamp-1">{productName}</span>
@@ -283,7 +283,7 @@ export function ProductDetailsPage() {
             <button
               onClick={handleToggleFavorite}
               className="absolute top-4 start-4 z-10 w-10 h-10 rounded-full bg-white/95 dark:bg-card/95 shadow-md flex items-center justify-center text-muted-foreground hover:text-rose-500 transition-colors"
-              aria-label="المفضلة"
+              aria-label="Wishlist"
             >
               <Heart
                 className={`w-5 h-5 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`}
@@ -292,7 +292,7 @@ export function ProductDetailsPage() {
 
             {hasDiscount && (
               <span className="absolute top-4 end-4 z-10 bg-amber-500 text-white text-xs font-extrabold px-3 py-1 rounded-full shadow-sm">
-                خصم {discountPercent}%
+                {discountPercent}% OFF
               </span>
             )}
           </div>
@@ -319,7 +319,7 @@ export function ProductDetailsPage() {
         <div className="space-y-6">
           <div className="space-y-2">
             <span className="text-xs font-bold uppercase tracking-wider text-primary">
-              Mates Store • {product.gender === 'men' ? 'رجالي' : (product.gender === 'women' ? 'نسائي' : 'للجنسين')}
+              Mates Store • {product.gender === 'men' ? 'Men' : (product.gender === 'women' ? 'Women' : 'Unisex')}
             </span>
             <h1 className="text-2xl sm:text-3xl font-black text-foreground">{productName}</h1>
 
@@ -332,7 +332,7 @@ export function ProductDetailsPage() {
                 </span>
               </div>
               <span className="text-xs text-muted-foreground">
-                ({reviews.length} تقييمات من العملاء)
+                ({reviews.length} customer reviews)
               </span>
             </div>
           </div>
@@ -341,11 +341,11 @@ export function ProductDetailsPage() {
           <div className="p-4 rounded-2xl bg-secondary/30 border border-border/60 space-y-1">
             <div className="flex items-baseline gap-3 flex-wrap">
               <span className="text-2xl sm:text-3xl font-black text-foreground">
-                {priceEgp.toFixed(2)} ج.م
+                {priceEgp.toFixed(2)} EGP
               </span>
               {hasDiscount && (
                 <span className="text-sm text-muted-foreground line-through font-semibold">
-                  {compareAtEgp.toFixed(2)} ج.م
+                  {compareAtEgp.toFixed(2)} EGP
                 </span>
               )}
             </div>
@@ -353,7 +353,7 @@ export function ProductDetailsPage() {
             {pointsEarnedEgp > 0 && (
               <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 pt-1">
                 <Gift className="w-3.5 h-3.5" />
-                <span>تكسب {pointsEarnedEgp} ج.م رصيد نقاط ولاء (5%) عند شراء هذه القطعة!</span>
+                <span>Earn {pointsEarnedEgp} EGP loyalty credit (5%) when purchasing this item!</span>
               </p>
             )}
           </div>
@@ -362,8 +362,8 @@ export function ProductDetailsPage() {
           {availableSizes.length > 0 && (
             <div className="space-y-2.5">
               <label className="text-xs font-extrabold text-foreground flex justify-between items-center">
-                <span>المقاس:</span>
-                <span className="text-muted-foreground text-[11px] font-bold">{selectedSize || 'اختر المقاس'}</span>
+                <span>Size:</span>
+                <span className="text-muted-foreground text-[11px] font-bold">{selectedSize || 'Select Size'}</span>
               </label>
               <div className="flex items-center gap-2.5 flex-wrap">
                 {availableSizes.map((sz) => (
@@ -387,7 +387,7 @@ export function ProductDetailsPage() {
           {availableColors.length > 0 && (
             <div className="space-y-2.5">
               <label className="text-xs font-extrabold text-foreground flex justify-between items-center">
-                <span>اللون:</span>
+                <span>Color:</span>
                 <span className="text-muted-foreground text-[11px] font-bold">
                   {getText(availableColors.find((c) => c.slug === selectedColor)?.name) || selectedColor}
                 </span>
@@ -428,8 +428,8 @@ export function ProductDetailsPage() {
             />
             <span className={isAvailable ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-600'}>
               {isAvailable
-                ? `متوفر في المخزون (${stockAvailable} قطعة متبقية)`
-                : 'غير متوفر بهذا المقاس واللون حالياً'}
+                ? `In stock (${stockAvailable} available)`
+                : 'Out of stock in this size and color'}
             </span>
           </div>
 
@@ -440,7 +440,7 @@ export function ProductDetailsPage() {
                 onClick={() => setQuantity((q) => (q > 1 ? q - 1 : 1))}
                 disabled={quantity <= 1}
                 className="w-9 h-9 rounded-xl flex items-center justify-center text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors disabled:opacity-40"
-                aria-label="إنقاص"
+                aria-label="Decrease quantity"
               >
                 <Minus className="w-4 h-4" />
               </button>
@@ -451,7 +451,7 @@ export function ProductDetailsPage() {
                 onClick={() => setQuantity((q) => (q < stockAvailable ? q + 1 : q))}
                 disabled={!isAvailable || quantity >= stockAvailable}
                 className="w-9 h-9 rounded-xl flex items-center justify-center text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors disabled:opacity-40"
-                aria-label="زيادة"
+                aria-label="Increase quantity"
               >
                 <Plus className="w-4 h-4" />
               </button>
@@ -471,7 +471,7 @@ export function ProductDetailsPage() {
           {productDescription && (
             <div className="border-t border-border/60 pt-5 space-y-2">
               <h4 className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground">
-                وصف المنتج
+                Product Description
               </h4>
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
                 {productDescription}
@@ -484,15 +484,15 @@ export function ProductDetailsPage() {
       {/* Customer Reviews Section */}
       <section className="border-t border-border/60 pt-10 space-y-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-black text-foreground">آراء وتقييمات العملاء ({reviews.length})</h2>
+          <h2 className="text-xl font-black text-foreground">Customer Reviews & Ratings ({reviews.length})</h2>
         </div>
 
         {/* Leave Review Form */}
         {isAuthenticated && (
           <form onSubmit={handleReviewSubmit} className="bg-card border border-border/60 rounded-3xl p-6 space-y-4 shadow-xs">
-            <h3 className="text-sm font-extrabold text-foreground">شارك رأيك في هذا المنتج</h3>
+            <h3 className="text-sm font-extrabold text-foreground">Share your thoughts on this product</h3>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-muted-foreground">التقييم:</span>
+              <span className="text-xs font-bold text-muted-foreground">Rating:</span>
               <div className="flex items-center gap-1">
                 {[1, 2, 3, 4, 5].map((st) => (
                   <button
@@ -515,7 +515,7 @@ export function ProductDetailsPage() {
             <textarea
               required
               rows={3}
-              placeholder="اكتب تقييمك وتجربتك مع المقاس والجودة..."
+              placeholder="Write your review, sizing feedback, and thoughts on quality..."
               value={reviewTitle}
               onChange={(e) => setReviewTitle(e.target.value)}
               className="w-full p-3 rounded-2xl border border-input bg-background text-xs focus:outline-none focus:ring-2 focus:ring-primary/40"
@@ -525,7 +525,7 @@ export function ProductDetailsPage() {
               disabled={createReviewMutation.isPending}
               className="bg-primary text-white rounded-xl text-xs font-bold"
             >
-              نشر التقييم
+              Submit Review
             </Button>
           </form>
         )}
@@ -536,7 +536,7 @@ export function ProductDetailsPage() {
             <div key={rev._id} className="bg-card border border-border/60 rounded-2xl p-4 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-foreground">
-                  {rev.user?.name || 'عميل'}
+                  {rev.user?.name || 'Customer'}
                 </span>
                 <div className="flex items-center text-amber-400">
                   <Star className="w-3.5 h-3.5 fill-amber-400" />
@@ -548,7 +548,7 @@ export function ProductDetailsPage() {
           ))}
           {reviews.length === 0 && (
             <p className="text-xs text-muted-foreground text-center py-6">
-              كن أول من يقيم هذا المنتج!
+              Be the first to review this product!
             </p>
           )}
         </div>
@@ -556,8 +556,8 @@ export function ProductDetailsPage() {
 
       <ConfirmDialog
         isOpen={Boolean(reviewIdToDelete)}
-        title="حذف المراجعة"
-        message="هل أنت متأكد من حذف هذه المراجعة؟"
+        title="Delete Review"
+        message="Are you sure you want to delete this review?"
         onConfirm={handleConfirmDelete}
         onCancel={() => setReviewIdToDelete(null)}
       />

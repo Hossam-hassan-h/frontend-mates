@@ -19,14 +19,14 @@ import { toast } from 'sonner';
 import { getText } from '@/utils/getText.js';
 
 const filters = [
-  { id: 'all', label: 'الكل' },
-  { id: 'available', label: 'متوفر' },
-  { id: 'low-stock', label: 'مخزون منخفض' },
-  { id: 'out-of-stock', label: 'نفد' },
-  { id: 'hidden', label: 'مخفي' },
-  { id: 'archived', label: 'مؤرشف' },
-  { id: 'discounted', label: 'مخفض' },
-  { id: 'featured', label: 'مميز' },
+  { id: 'all', label: 'All' },
+  { id: 'available', label: 'In Stock' },
+  { id: 'low-stock', label: 'Low Stock' },
+  { id: 'out-of-stock', label: 'Out of Stock' },
+  { id: 'hidden', label: 'Hidden' },
+  { id: 'archived', label: 'Archived' },
+  { id: 'discounted', label: 'Discounted' },
+  { id: 'featured', label: 'Featured' },
 ];
 
 const ITEMS_PER_PAGE = 10;
@@ -68,9 +68,9 @@ export function AdminProductsPage() {
     const newStatus = product.status === 'hidden' ? 'active' : 'hidden';
     try {
       await updateProductMutation.mutateAsync({ id: prodId, data: { status: newStatus } });
-      toast.success(newStatus === 'hidden' ? 'تم إخفاء المنتج بنجاح' : 'تم إظهار المنتج بنجاح');
+      toast.success(newStatus === 'hidden' ? 'Product hidden successfully' : 'Product visible successfully');
     } catch (err) {
-      toast.error('فشل تغيير حالة المنتج');
+      toast.error('Failed to change product status');
     }
   };
 
@@ -79,9 +79,9 @@ export function AdminProductsPage() {
     const newStatus = product.status === 'archived' ? 'active' : 'archived';
     try {
       await updateProductMutation.mutateAsync({ id: prodId, data: { status: newStatus } });
-      toast.success(newStatus === 'archived' ? 'تم أرشفة المنتج بنجاح' : 'تم تنشيط المنتج بنجاح');
+      toast.success(newStatus === 'archived' ? 'Product archived successfully' : 'Product activated successfully');
     } catch (err) {
-      toast.error('فشل تغيير حالة أرشفة المنتج');
+      toast.error('Failed to change product archive status');
     }
   };
 
@@ -94,7 +94,7 @@ export function AdminProductsPage() {
     const prodId = productToDelete._id || productToDelete.id;
     try {
       await deleteProductMutation.mutateAsync(prodId);
-      toast.success('تم حذف المنتج بنجاح');
+      toast.success('Product deleted successfully');
       setProductToDelete(null);
       setSelectedRows((current) => {
         const next = new Set(current);
@@ -102,7 +102,7 @@ export function AdminProductsPage() {
         return next;
       });
     } catch (err) {
-      toast.error('فشل حذف المنتج');
+      toast.error('Failed to delete product');
     }
   };
 
@@ -111,11 +111,11 @@ export function AdminProductsPage() {
     if (ids.length === 0) return;
     try {
       await deleteBulkProductsMutation.mutateAsync(ids);
-      toast.success(`تم حذف ${ids.length} منتج بنجاح`);
+      toast.success(`Successfully deleted ${ids.length} product(s)`);
       setSelectedRows(new Set());
       setIsBulkDeleteOpen(false);
     } catch (err) {
-      toast.error('فشل حذف المنتجات المحددة');
+      toast.error('Failed to delete selected products');
     }
   };
 
@@ -124,11 +124,11 @@ export function AdminProductsPage() {
     if (ids.length === 0) return;
     try {
       await updateBulkStatusMutation.mutateAsync({ ids, status: 'archived' });
-      toast.success(`تمت أرشفة ${ids.length} منتج بنجاح`);
+      toast.success(`Successfully archived ${ids.length} product(s)`);
       setSelectedRows(new Set());
       setIsBulkArchiveOpen(false);
     } catch (err) {
-      toast.error('فشل أرشفة المنتجات المحددة');
+      toast.error('Failed to archive selected products');
     }
   };
 
@@ -153,7 +153,7 @@ export function AdminProductsPage() {
       const matchesCategory =
         !category ||
         category === 'all' ||
-        (category === 'عروض اليوم' || category === 'offers'
+        (category === 'Special Offers' || category === 'offers' || category === 'عروض اليوم'
           ? Boolean(product.offer || (product.discountPercentage && product.discountPercentage > 0))
           : prodCatId === category || prodCatName === category);
 
@@ -223,7 +223,7 @@ export function AdminProductsPage() {
   };
 
   return (
-    <div className="w-full min-w-0 max-w-full space-y-4 font-['Cairo']" dir="rtl">
+    <div className="w-full min-w-0 max-w-full space-y-4 font-sans" dir="ltr">
       <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:items-center">
         <div className="relative min-w-0 sm:col-span-2 lg:flex-1">
           <Search
@@ -234,19 +234,19 @@ export function AdminProductsPage() {
             type="search"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            placeholder="ابحث عن منتج..."
-            aria-label="البحث عن منتج"
-            className="h-[42px] w-full rounded-xl border border-[#E2E6DC] bg-white py-2.5 pl-4 pr-9 text-sm text-[#1A1F16] placeholder:text-[rgba(26,31,22,0.5)] focus:outline-none focus:ring-2 focus:ring-[#1D6B36]/40"
+            placeholder="Search products..."
+            aria-label="Search products"
+            className="h-[42px] w-full rounded-xl border border-input bg-card py-2.5 pl-4 pr-9 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
         </div>
 
         <select
           value={category}
           onChange={(event) => setCategory(event.target.value)}
-          aria-label="تصفية حسب التصنيف"
-          className="h-[42px] w-full min-w-0 rounded-xl border border-[#E2E6DC] bg-white px-3 text-sm text-[#1A1F16] focus:outline-none focus:ring-2 focus:ring-[#1D6B36]/40 sm:w-auto lg:max-w-64"
+          aria-label="Filter by category"
+          className="h-[42px] w-full min-w-0 rounded-xl border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 sm:w-auto lg:max-w-64"
         >
-          <option value="">جميع التصنيفات</option>
+          <option value="">All Categories</option>
           {apiCategories.map((item) => (
             <option key={item._id} value={item._id}>
               {getText(item.name)}
@@ -259,7 +259,7 @@ export function AdminProductsPage() {
             onClick={() => refetchCategories()}
             className="h-[42px] rounded-xl border border-destructive/30 px-3 text-xs font-bold text-destructive"
           >
-            إعادة تحميل التصنيفات
+            Reload Categories
           </button>
         )}
 
@@ -270,7 +270,7 @@ export function AdminProductsPage() {
           className="h-[42px] w-full gap-2 rounded-xl border border-[#1D6B36] bg-[#1D6B36] px-3 py-1.5 text-sm font-semibold text-white hover:bg-[#175A2D] sm:w-auto"
         >
           <Plus aria-hidden="true" className="h-4 w-4 text-white" />
-          إضافة منتج
+          Add Product
         </Button>
       </div>
 
@@ -282,7 +282,7 @@ export function AdminProductsPage() {
               {selectedRows.size}
             </span>
             <span className="text-xs sm:text-sm font-bold text-[#1A1F16]">
-              تم تحديد {selectedRows.size} {selectedRows.size === 1 ? 'منتج' : 'منتجات'}
+              {selectedRows.size} {selectedRows.size === 1 ? 'product' : 'products'} selected
             </span>
           </div>
 
@@ -295,7 +295,7 @@ export function AdminProductsPage() {
               className="inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 text-xs font-bold text-indigo-700 hover:bg-indigo-100 hover:border-indigo-300 transition-all cursor-pointer disabled:opacity-50"
             >
               <Archive className="h-4 w-4 text-indigo-600" />
-              <span>أرشفة المحددة</span>
+              <span>Archive Selected</span>
             </button>
 
             {/* Delete Bulk Button */}
@@ -306,7 +306,7 @@ export function AdminProductsPage() {
               className="inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border border-rose-200 bg-rose-50 px-3.5 text-xs font-bold text-rose-700 hover:bg-rose-100 hover:border-rose-300 transition-all cursor-pointer disabled:opacity-50"
             >
               <Trash2 className="h-4 w-4 text-rose-600" />
-              <span>حذف المحددة</span>
+              <span>Delete Selected</span>
             </button>
 
             {/* Clear Selection Button */}
@@ -314,10 +314,10 @@ export function AdminProductsPage() {
               type="button"
               onClick={() => setSelectedRows(new Set())}
               className="inline-flex h-9 items-center justify-center gap-1 rounded-xl px-2.5 text-xs font-semibold text-[#6B7464] hover:bg-[#E2E6DC]/40 transition-all cursor-pointer"
-              title="إلغاء التحديد"
+              title="Deselect"
             >
               <X className="h-4 w-4" />
-              <span>إلغاء التحديد</span>
+              <span>Deselect</span>
             </button>
           </div>
         </div>
@@ -335,7 +335,7 @@ export function AdminProductsPage() {
               className={`shrink-0 rounded-xl border px-3 py-1.5 text-xs font-bold transition-colors ${
                 isActive
                   ? 'border-[#1D6B36] bg-[#1D6B36] text-white'
-                  : 'border-[#E2E6DC] bg-white text-[#1A1F16] hover:border-[#1D6B36]'
+                  : 'border-border/80 bg-card text-foreground hover:border-[#1D6B36]'
               }`}
             >
               {filter.label}
@@ -344,41 +344,41 @@ export function AdminProductsPage() {
         })}
       </div>
 
-      <Card className="w-full max-w-full overflow-hidden rounded-2xl border-[#E2E6DC] bg-white shadow-sm">
+      <Card className="w-full max-w-full overflow-hidden rounded-2xl border-border/80 bg-card shadow-sm">
         <div className="w-full max-w-full overflow-x-auto overscroll-x-contain">
-          <table className="w-full min-w-[720px] table-auto text-sm text-[#1A1F16]" dir="rtl">
-            <thead className="border-b border-[#E2E6DC] bg-[#F7F8F5]">
+          <table className="w-full min-w-[720px] table-auto text-sm text-foreground" dir="ltr">
+            <thead className="border-b border-border/60 bg-secondary/40">
               <tr className="h-11">
                 <th className="w-8 px-3 py-3">
                   <input
                     type="checkbox"
                     checked={allSelected}
                     onChange={toggleAll}
-                    aria-label="تحديد جميع المنتجات"
-                    className="h-[13px] w-[13px] rounded-sm border-[#767676] accent-[#1D6B36]"
+                    aria-label="Select all products"
+                    className="h-[13px] w-[13px] rounded-sm border-input accent-[#1D6B36]"
                   />
                 </th>
-                <th className="px-3 py-3 text-right font-bold text-[#6B7464]">المنتج</th>
-                <th className="px-3 py-3 text-right font-bold text-[#6B7464]">السعر</th>
-                <th className="px-3 py-3 text-right font-bold text-[#6B7464]">المخزون</th>
-                <th className="px-3 py-3 text-right font-bold text-[#6B7464]">الحالة</th>
-                <th className="px-3 py-3 text-right font-bold text-[#6B7464]">إجراءات</th>
+                <th className="px-3 py-3 text-start font-bold text-muted-foreground">Product</th>
+                <th className="px-3 py-3 text-start font-bold text-muted-foreground">Price</th>
+                <th className="px-3 py-3 text-start font-bold text-muted-foreground">Stock</th>
+                <th className="px-3 py-3 text-start font-bold text-muted-foreground">Status</th>
+                <th className="px-3 py-3 text-end font-bold text-muted-foreground">Actions</th>
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-[#F0F2ED]">
+            <tbody className="divide-y divide-border/60">
               {isProductsLoading ? (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-sm text-[#6B7464]">
-                    جاري تحميل المنتجات...
+                  <td colSpan={6} className="py-8 text-center text-sm text-muted-foreground">
+                    Loading products...
                   </td>
                 </tr>
               ) : isProductsError ? (
                 <tr>
                   <td colSpan={6} className="p-4">
                     <ErrorState
-                      title="تعذر تحميل المنتجات"
-                      message="حدث خطأ أثناء جلب المنتجات من الخادم."
+                      title="Failed to load products"
+                      message="An error occurred while fetching products from server."
                       onRetry={refetchProducts}
                     />
                   </td>
@@ -390,18 +390,18 @@ export function AdminProductsPage() {
                   const prodCatName = getProductCategoryName(product.category);
                   const prodPrice = product.price !== undefined ? product.price : (product.originalPrice || 0);
                   const prodStock = product.quantity !== undefined ? product.quantity : (product.stock || 0);
-                  const prodUnit = product.unit || 'كغ';
+                  const prodUnit = product.unit || 'piece';
                   const prodImage = product.imageCover || product.image;
                   const hasDiscount = Boolean(product.originalPrice && prodPrice && Number(product.originalPrice) > Number(prodPrice));
 
                   return (
-                    <tr key={prodId} className="h-[65px] hover:bg-[#F7F8F5]">
+                    <tr key={prodId} className="h-[65px] hover:bg-secondary/40 transition-colors">
                       <td className="px-3 py-3">
                         <input
                           type="checkbox"
                           checked={selectedRows.has(prodId)}
                           onChange={() => toggleRow(prodId)}
-                          aria-label={`تحديد ${prodName}`}
+                          aria-label={`Select ${prodName}`}
                           className="h-[13px] w-[13px] rounded-sm border-[#767676] accent-[#1D6B36]"
                         />
                       </td>
@@ -453,12 +453,12 @@ export function AdminProductsPage() {
                         <div className="flex flex-wrap gap-1">
                           {product.featured && (
                             <span className="whitespace-nowrap rounded-full bg-[#FEF9C2] px-1.5 py-0.5 text-[10px] font-bold text-[#A65F00]">
-                              مميز
+                              Featured
                             </span>
                           )}
                           {(product.offer || product.discountPercentage > 0) && (
                             <span className="whitespace-nowrap rounded-full bg-[#FFEDD5] px-1.5 py-0.5 text-[10px] font-bold text-[#C2410C]">
-                              عرض
+                              Sale
                             </span>
                           )}
                         </div>
@@ -468,8 +468,8 @@ export function AdminProductsPage() {
                           <button
                             type="button"
                             onClick={() => setEditingProduct(product)}
-                            aria-label={`تعديل ${prodName}`}
-                            title="تعديل"
+                            aria-label={`Edit ${prodName}`}
+                            title="Edit"
                             className="flex h-7 w-7 items-center justify-center rounded-lg text-[#6B7464] hover:bg-[#F0F2ED] hover:text-[#1D6B36]"
                           >
                             <Edit2 aria-hidden="true" className="h-4 w-4" />
@@ -477,8 +477,8 @@ export function AdminProductsPage() {
                           <button
                             type="button"
                             onClick={() => handleToggleVisibility(product)}
-                            aria-label={product.status === 'hidden' ? `إظهار ${prodName}` : `إخفاء ${prodName}`}
-                            title={product.status === 'hidden' ? 'إظهار' : 'إخفاء'}
+                            aria-label={product.status === 'hidden' ? `Show ${prodName}` : `Hide ${prodName}`}
+                            title={product.status === 'hidden' ? 'Show' : 'Hide'}
                             className="flex h-7 w-7 items-center justify-center rounded-lg text-[#6B7464] hover:bg-[#F0F2ED]"
                           >
                             {product.status === 'hidden' ? (
@@ -490,8 +490,8 @@ export function AdminProductsPage() {
                           <button
                             type="button"
                             onClick={() => handleToggleArchive(product)}
-                            aria-label={product.status === 'archived' ? `تنشيط ${prodName}` : `أرشفة ${prodName}`}
-                            title={product.status === 'archived' ? 'تنشيط' : 'أرشفة'}
+                            aria-label={product.status === 'archived' ? `Activate ${prodName}` : `Archive ${prodName}`}
+                            title={product.status === 'archived' ? 'Activate' : 'Archive'}
                             className="flex h-7 w-7 items-center justify-center rounded-lg text-[#6B7464] hover:bg-amber-50 hover:text-amber-700"
                           >
                             <Archive aria-hidden="true" className={`h-4 w-4 ${product.status === 'archived' ? 'text-amber-600' : ''}`} />
@@ -499,8 +499,8 @@ export function AdminProductsPage() {
                           <button
                             type="button"
                             onClick={() => handleDeleteProduct(product)}
-                            aria-label={`حذف ${prodName}`}
-                            title="حذف"
+                            aria-label={`Delete ${prodName}`}
+                            title="Delete"
                             className="flex h-7 w-7 items-center justify-center rounded-lg text-red-600 hover:bg-red-50 hover:text-red-700"
                           >
                             <Trash2 aria-hidden="true" className="h-4 w-4" />
@@ -514,8 +514,8 @@ export function AdminProductsPage() {
                 <tr>
                   <td colSpan={6} className="py-8 text-center">
                     <EmptyState
-                      title="لا توجد منتجات"
-                      description="لم نجد أي منتجات تطابق التصنيف أو البحث المحدد."
+                      title="No products found"
+                      description="No products matched your selected category or search term."
                     />
                   </td>
                 </tr>
@@ -530,7 +530,7 @@ export function AdminProductsPage() {
           totalItems={filteredProducts.length}
           pageSize={ITEMS_PER_PAGE}
           onPageChange={goToPage}
-          itemLabel="منتج"
+          itemLabel="product"
         />
       </Card>
 
@@ -549,10 +549,10 @@ export function AdminProductsPage() {
       <ConfirmDialog
         isOpen={Boolean(productToDelete)}
         variant="danger"
-        title="تأكيد حذف المنتج"
-        description={`هل أنت متأكد من حذف المنتج "${getText(productToDelete?.name || productToDelete?.title)}" نهائياً من المتجر؟ لا يمكن التراجع عن هذا الإجراء.`}
-        confirmText="حذف نهائياً"
-        cancelText="إلغاء"
+        title="Confirm Product Deletion"
+        description={`Are you sure you want to permanently delete "${getText(productToDelete?.name || productToDelete?.title)}" from the store? This action cannot be undone.`}
+        confirmText="Delete Permanently"
+        cancelText="Cancel"
         isLoading={deleteProductMutation.isPending}
         onConfirm={handleConfirmSingleDelete}
         onCancel={() => {
@@ -564,10 +564,10 @@ export function AdminProductsPage() {
       <ConfirmDialog
         isOpen={isBulkDeleteOpen}
         variant="danger"
-        title="تأكيد حذف المنتجات المحددة"
-        description={`هل أنت متأكد من حذف ${selectedRows.size} منتج نهائياً من المتجر؟ سيتم حذف بياناتها وصورها نهائياً.`}
-        confirmText={`حذف (${selectedRows.size}) نهائياً`}
-        cancelText="إلغاء"
+        title="Confirm Bulk Product Deletion"
+        description={`Are you sure you want to permanently delete ${selectedRows.size} product(s) from the store? Their data and images will be removed.`}
+        confirmText={`Delete (${selectedRows.size}) Permanently`}
+        cancelText="Cancel"
         isLoading={deleteBulkProductsMutation.isPending}
         onConfirm={handleConfirmBulkDelete}
         onCancel={() => {
@@ -579,10 +579,10 @@ export function AdminProductsPage() {
       <ConfirmDialog
         isOpen={isBulkArchiveOpen}
         variant="archive"
-        title="تأكيد أرشفة المنتجات المحددة"
-        description={`هل أنت متأكد من نقل ${selectedRows.size} منتج إلى الأرشيف؟ ستبقى بيانات المنتجات محفوظة ولكن لن تظهر في واجهة المتجر للعملاء.`}
-        confirmText={`أرشفة (${selectedRows.size}) منتج`}
-        cancelText="إلغاء"
+        title="Confirm Bulk Product Archiving"
+        description={`Are you sure you want to move ${selectedRows.size} product(s) to archive? Their data will be saved but hidden from customers.`}
+        confirmText={`Archive (${selectedRows.size}) Product(s)`}
+        cancelText="Cancel"
         isLoading={updateBulkStatusMutation.isPending}
         onConfirm={handleConfirmBulkArchive}
         onCancel={() => {

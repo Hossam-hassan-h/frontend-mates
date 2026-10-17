@@ -9,12 +9,12 @@ export function TopSellingProductsCard({ products = [] }) {
       <CardHeader className="flex flex-row items-center justify-between border-b border-border/60 p-4 sm:p-6 sm:pb-4">
         <CardTitle className="flex items-center gap-2 text-sm font-extrabold sm:text-base">
           <Award className="w-5 h-5 text-amber-500" />
-          المنتجات الأكثر مبيعاً
+          Top Selling Products
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0 divide-y divide-border/60">
         {products.length === 0 ? (
-          <div className="p-6 text-center text-xs text-muted-foreground">لا توجد بيانات متاحة</div>
+          <div className="p-6 text-center text-xs text-muted-foreground">No data available</div>
         ) : (
           products.map((item, index) => (
             <div key={item.id || index} className="flex min-w-0 items-center justify-between gap-3 p-3 transition-colors hover:bg-secondary/30 sm:p-4">
@@ -29,7 +29,7 @@ export function TopSellingProductsCard({ products = [] }) {
               </div>
               <div className="shrink-0 text-end">
                 <Badge variant="secondary" className="font-bold">
-                  {item.quantitySold} مباع
+                  {item.quantitySold} sold
                 </Badge>
                 <p className="text-xs font-semibold text-muted-foreground mt-1">
                   {item.revenue} EGP

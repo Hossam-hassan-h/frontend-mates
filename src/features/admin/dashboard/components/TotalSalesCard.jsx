@@ -7,7 +7,7 @@ export function TotalSalesCard({ totalSales = 0, growth = '+0%' }) {
       <CardContent className="p-4 sm:p-6">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-xs font-bold text-muted-foreground">إجمالي المبيعات</p>
+            <p className="text-xs font-bold text-muted-foreground">Total Sales</p>
             <h3 className="text-xl font-extrabold text-foreground sm:text-2xl">
               {totalSales.toLocaleString('ar-EG')} EGP
             </h3>
@@ -19,7 +19,7 @@ export function TotalSalesCard({ totalSales = 0, growth = '+0%' }) {
 
         <div className="mt-4 flex items-center gap-1 text-xs font-bold text-emerald-600">
           <TrendingUp className="w-3.5 h-3.5" />
-          <span>{growth} مقارنة بالفترة السابقة</span>
+          <span>{growth} vs previous period</span>
         </div>
       </CardContent>
     </Card>

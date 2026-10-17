@@ -1,10 +1,10 @@
 export const PRODUCT_UNITS = [
-  { id: 'piece', name: 'قطعة / Piece' },
+  { id: 'piece', name: 'Piece' },
 ];
 
 export const GENDER_OPTIONS = [
-  { id: 'unisex', name: 'للجنسين / Unisex' },
-  { id: 'men', name: 'رجالي / Men' },
-  { id: 'women', name: 'نسائي / Women' },
+  { id: 'unisex', name: 'Unisex' },
+  { id: 'men', name: 'Men' },
+  { id: 'women', name: 'Women' },
 ];
 

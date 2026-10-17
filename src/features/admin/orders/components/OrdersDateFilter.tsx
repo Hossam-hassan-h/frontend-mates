@@ -29,7 +29,7 @@ export const OrdersDateFilter: React.FC<OrdersDateFilterProps> = ({
   const handleFromChange = (newFrom: string) => {
     setFrom(newFrom);
     if (to && newFrom && new Date(to) < new Date(newFrom)) {
-      setError('تاريخ النهاية يجب ألا يكون قبل تاريخ البداية');
+      setError('End date cannot be earlier than start date');
       return;
     }
     setError(null);
@@ -39,7 +39,7 @@ export const OrdersDateFilter: React.FC<OrdersDateFilterProps> = ({
   const handleToChange = (newTo: string) => {
     setTo(newTo);
     if (from && newTo && new Date(newTo) < new Date(from)) {
-      setError('تاريخ النهاية يجب ألا يكون قبل تاريخ البداية');
+      setError('End date cannot be earlier than start date');
       return;
     }
     setError(null);
@@ -49,26 +49,26 @@ export const OrdersDateFilter: React.FC<OrdersDateFilterProps> = ({
   return (
     <div
       className={`relative flex items-center gap-1.5 ${className}`}
-      dir="rtl"
+      dir="ltr"
     >
-      <span className="text-xs font-bold text-[#6B7464] shrink-0">التاريخ:</span>
+      <span className="text-xs font-bold text-muted-foreground shrink-0">Date:</span>
       <div className="flex items-center gap-1">
         <input
           type="date"
           value={from}
           onChange={(e) => handleFromChange(e.target.value)}
-          className="h-9 rounded-xl border border-[#E2E6DC] bg-white px-2.5 text-xs text-[#1A1F16] focus:border-[#1D6B36] focus:outline-none focus:ring-2 focus:ring-[#1D6B36]/20 transition-all cursor-pointer"
-          title="من تاريخ"
-          aria-label="من تاريخ"
+          className="h-9 rounded-xl border border-input bg-background text-foreground px-2.5 text-xs focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer"
+          title="From date"
+          aria-label="From date"
         />
-        <span className="text-xs text-[#6B7464]">إلى</span>
+        <span className="text-xs text-muted-foreground">to</span>
         <input
           type="date"
           value={to}
           onChange={(e) => handleToChange(e.target.value)}
-          className="h-9 rounded-xl border border-[#E2E6DC] bg-white px-2.5 text-xs text-[#1A1F16] focus:border-[#1D6B36] focus:outline-none focus:ring-2 focus:ring-[#1D6B36]/20 transition-all cursor-pointer"
-          title="إلى تاريخ"
-          aria-label="إلى تاريخ"
+          className="h-9 rounded-xl border border-input bg-background text-foreground px-2.5 text-xs focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer"
+          title="To date"
+          aria-label="To date"
         />
       </div>
 

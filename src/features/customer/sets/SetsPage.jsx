@@ -20,10 +20,10 @@ export function SetsPage() {
   });
 
   const relationTabs = [
-    { id: 'all', name: 'الكل (All Sets)' },
-    { id: 'couple', name: 'كابلز (Couples)' },
-    { id: 'friends', name: 'أصدقاء (Friends)' },
-    { id: 'siblings', name: 'أخوة (Siblings)' },
+    { id: 'all', name: 'All Sets' },
+    { id: 'couple', name: 'Couples' },
+    { id: 'friends', name: 'Friends' },
+    { id: 'siblings', name: 'Siblings' },
   ];
 
   const filteredSets = sets.filter((set) => {
@@ -32,19 +32,19 @@ export function SetsPage() {
   });
 
   return (
-    <div className="space-y-8 py-6 dir-rtl text-start max-w-7xl mx-auto px-4">
+    <div className="space-y-8 py-6 text-start max-w-7xl mx-auto px-4">
       {/* Header Banner */}
       <div className="relative overflow-hidden rounded-3xl bg-linear-to-l from-primary/15 via-secondary/40 to-background border border-border/60 p-8 sm:p-10 shadow-xs">
         <div className="max-w-2xl space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>تشكيلة الأطقم المتناسقة (Matching Sets)</span>
+            <span>Matching Sets Collection</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
-            أطقم الكابلز والأصدقاء — Mates Store
+            Couples & Friends Sets — Mates Store
           </h1>
           <p className="text-sm text-muted-foreground font-medium leading-relaxed">
-            كل قطعة صُممت لتكمل القطعة التي بجانبها. اختر طقمك المفضل، وحدد المقاس واللون المناسب لكل شخص على حدة، واجمع 5% نقاط ولاء مع كل طلب.
+            Every set is crafted to complement each other. Choose your favorite matching set, customize size and color for each person individually, and earn 5% loyalty credit with every order.
           </p>
         </div>
       </div>
@@ -79,16 +79,16 @@ export function SetsPage() {
         </div>
       ) : isError ? (
         <div className="text-center py-16 bg-card rounded-3xl border border-border/60 p-8 space-y-4">
-          <p className="text-destructive font-bold text-sm">تعذر تحميل أطقم المتجر حالياً.</p>
+          <p className="text-destructive font-bold text-sm">Unable to load store sets at this time.</p>
           <Button onClick={() => refetch()} variant="outline" className="rounded-xl">
-            إعادة المحاولة
+            Retry
           </Button>
         </div>
       ) : filteredSets.length === 0 ? (
         <div className="text-center py-16 bg-card rounded-3xl border border-border/60 p-8 space-y-3">
           <Users className="w-12 h-12 text-muted-foreground mx-auto" />
-          <h3 className="text-base font-extrabold text-foreground">لا توجد أطقم مطابقة حالياً</h3>
-          <p className="text-xs text-muted-foreground">ترقبوا إطلاق تشكيلات جديدة قريباً في Mates Store.</p>
+          <h3 className="text-base font-extrabold text-foreground">No matching sets found</h3>
+          <p className="text-xs text-muted-foreground">Stay tuned for new collection drops soon at Mates Store.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -98,12 +98,12 @@ export function SetsPage() {
             const pointsEarnedEgp = Math.floor(priceEgp * 5) / 100;
             const relationLabel =
               set.relationType === 'couple'
-                ? 'كابلز (Couple)'
+                ? 'Couples'
                 : set.relationType === 'friends'
-                ? 'أصدقاء (Friends)'
+                ? 'Friends'
                 : set.relationType === 'siblings'
-                ? 'أخوة (Siblings)'
-                : 'طقم متناسق';
+                ? 'Siblings'
+                : 'Matching Set';
 
             const coverImage =
               set.images?.find((img) => img.isCover)?.url ||
@@ -180,15 +180,15 @@ export function SetsPage() {
                   {/* Footer Price & Action */}
                   <div className="pt-3 border-t border-border/60 flex items-center justify-between">
                     <div>
-                      <span className="text-[10px] text-muted-foreground block font-bold">سعر الطقم بالكامل:</span>
-                      <span className="text-lg font-black text-primary">{priceEgp.toFixed(2)} ج.م</span>
+                      <span className="text-[10px] text-muted-foreground block font-bold">Full Set Price:</span>
+                      <span className="text-lg font-black text-primary">{priceEgp.toFixed(2)} EGP</span>
                     </div>
 
                     <Link
                       to={`${ROUTE_PATHS.SETS}/${set._id}`}
                       className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-extrabold transition-all shadow-xs"
                     >
-                      <span>تخصيص وطلب</span>
+                      <span>Customize & Order</span>
                       <ArrowRight className="w-3.5 h-3.5 rotate-180" />
                     </Link>
                   </div>
