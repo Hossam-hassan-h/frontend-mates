@@ -23,7 +23,6 @@ import { CartDrawer } from "@/components/layout/CartDrawer.jsx";
 import { ScrollToTop } from "@/components/common/ScrollToTop.jsx";
 import { BrandLogo } from "@/components/common/BrandLogo.jsx";
 import { ThemeToggle } from "@/components/common/ThemeToggle.jsx";
-import { useStoreSettings } from "@/features/settings/useStoreSettings.js";
 import { getText } from "@/utils/getText.js";
 
 export function CustomerLayout() {
@@ -38,12 +37,6 @@ export function CustomerLayout() {
   const toggleMobileMenu = useUiStore((state) => state.toggleMobileMenu);
   const closeMobileMenu = useUiStore((state) => state.closeMobileMenu);
   const { logout } = useAuth();
-  const {
-    data: storeSettings,
-    isLoading: isSettingsLoading,
-    isError: isSettingsError,
-    refetch: refetchSettings,
-  } = useStoreSettings();
 
   // Dynamic Categories from API
   const {
@@ -72,19 +65,6 @@ export function CustomerLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground" dir="ltr">
       <ScrollToTop />
-
-      {/* Top Bar Announcement */}
-      <div className="bg-primary text-primary-foreground text-xs font-semibold py-2 px-4 text-center tracking-wide">
-        {isSettingsLoading ? (
-          <span className="mx-auto block h-4 w-64 max-w-full animate-pulse rounded bg-primary-foreground/20" />
-        ) : isSettingsError ? (
-          <button type="button" onClick={() => refetchSettings()} className="underline">
-            Failed to load announcement — Retry
-          </button>
-        ) : (
-          getText(storeSettings?.announcement) || 'Welcome to Mates Store! Earn 5% loyalty cashback on every order.'
-        )}
-      </div>
 
       {/* Cart Drawer Overlay */}
       <CartDrawer />

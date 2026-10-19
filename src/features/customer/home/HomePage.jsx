@@ -118,7 +118,7 @@ export function HomePage() {
       : "/Minimalist Mates Fashion Hero.png";
 
   return (
-    <div className="space-y-16 pb-12">
+    <div className="pb-12">
       {/* PART 1: Full-Bleed Hero Section with Real Image */}
       <section
         className="relative w-full min-h-[clamp(440px,75vh,640px)] sm:min-h-[clamp(480px,80vh,760px)] lg:min-h-[clamp(500px,85vh,880px)] overflow-hidden bg-card flex items-center"
@@ -174,8 +174,32 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* Scrolling Announcement Ticker: Flush beneath hero with solid dark/black background & cream/light text */}
+      <aside
+        aria-label="Announcement"
+        className="ticker-container w-full overflow-hidden bg-[var(--color-dark)] text-[var(--color-cream)] h-9 sm:h-11 flex items-center select-none"
+      >
+        <div className="ticker-track">
+          <div className="flex shrink-0 items-center whitespace-nowrap text-[14px] sm:text-[17px] font-bold font-sans uppercase tracking-wider text-[var(--color-cream)]">
+            <span>Welcome to Mates Store! Earn 5% loyalty cashback on every order.</span>
+            <span className="mx-6 text-[var(--color-cream)]/50" aria-hidden="true">•</span>
+            <span>Welcome to Mates Store! Earn 5% loyalty cashback on every order.</span>
+            <span className="mx-6 text-[var(--color-cream)]/50" aria-hidden="true">•</span>
+          </div>
+          <div
+            aria-hidden="true"
+            className="ticker-duplicate flex shrink-0 items-center whitespace-nowrap text-[14px] sm:text-[17px] font-bold font-sans uppercase tracking-wider text-[var(--color-cream)]"
+          >
+            <span>Welcome to Mates Store! Earn 5% loyalty cashback on every order.</span>
+            <span className="mx-6 text-[var(--color-cream)]/50" aria-hidden="true">•</span>
+            <span>Welcome to Mates Store! Earn 5% loyalty cashback on every order.</span>
+            <span className="mx-6 text-[var(--color-cream)]/50" aria-hidden="true">•</span>
+          </div>
+        </div>
+      </aside>
+
       {/* Content Container Below Hero */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 mt-16">
         {/* Couples Bundle Section */}
         <section className="rounded-3xl border border-border bg-card p-6 sm:p-10 transition-colors">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
