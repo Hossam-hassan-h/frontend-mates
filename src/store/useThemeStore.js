@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
 function getInitialTheme() {
-  if (typeof window === 'undefined') return 'system';
+  if (typeof window === 'undefined') return 'light';
   const saved = localStorage.getItem('mates-theme');
   if (saved === 'light' || saved === 'dark' || saved === 'system') {
     return saved;
   }
-  return 'system';
+  return 'light';
 }
 
 function applyTheme(theme) {
